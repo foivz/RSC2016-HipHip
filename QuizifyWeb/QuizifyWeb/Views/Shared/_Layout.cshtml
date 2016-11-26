@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -27,9 +28,16 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @{
+                        string url = HttpContext.Current.Request.Url.AbsolutePath;
+                    }
+
+                    <li @if (url.Contains("Home") || url == "/") { <text>class="active"</text> }>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li @if (url.Contains("Quizzes")) { <text>class="active"</text> }>@Html.ActionLink("Quizzes", "Quizzes", "Home")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li @if (url.Contains("Teams")) { <text>class="active"</text> }>@Html.ActionLink("My Teams", "Index", "Teams")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -38,8 +46,8 @@
     <div class="body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <footer style="background:#111; text-align:center; color:#FFF;">
+            <p>&copy; @DateTime.Now.Year - Quizify</p>
         </footer>
     </div>
 
@@ -48,3 +56,13 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+
+    $(document).ready(function() {
+
+        console.log(window.location.search);
+
+    });
+
+</script>

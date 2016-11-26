@@ -1,7 +1,9 @@
 ﻿@model QuizifyWeb.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
-
-<h2 class="lead text-primary">Choose social login provider</h2>
+<br />
+<h2 class="lead"><b>Please select your login / register method.</b></h2>
+<p style="margin-top:-20px;font-size:14px;"> If you are a registered user we will login you,
+     if you're not don't worry we'll register you!</p>
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0) {
@@ -17,8 +19,18 @@
             @Html.AntiForgeryToken()
             <div id="socialLoginList">
                 <p>
-                    @foreach (AuthenticationDescription p in loginProviders) {
-                        <button type="submit" style="margin: 5px;" class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                    @foreach (AuthenticationDescription p in loginProviders)
+                    {
+                        if (p.AuthenticationType == "Google")
+                        {
+                            <button type="submit" style="background:#E75926; color:#FFF;" style="margin: 5px;" class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                            
+                        }
+                        else if (p.AuthenticationType == "Facebook")
+                        {
+                            <button type="submit" style="background:#3b5998; margin-top:15px; color:#FFF;" style="margin: 5px;" class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                        }
+                        
                     }
                 </p>
             </div>
