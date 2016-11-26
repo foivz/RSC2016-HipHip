@@ -13,6 +13,22 @@ using WebGrease.Css.Extensions;
 
 namespace QuizifyWeb.Controllers.WebApi
 {
+    public class Timovi
+    {
+        public int id { get; set; }
+        public string imeTima { get; set; }
+    }
+
+    public class Members
+    {
+        public string ime { get; set; }
+    }
+
+    public class Korisnik
+    {
+        public string id { get; set; }
+    }
+
     public class TeamsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -21,6 +37,65 @@ namespace QuizifyWeb.Controllers.WebApi
         public IQueryable<Team> GetTeams()
         {
             return db.Teams;
+        }
+
+        [Route("api/Teams/My")]
+        public List<Timovi> Post([FromBody] Korisnik korisnik)
+        {
+            List<Timovi> timovi = new List<Timovi>();
+            ApplicationUser dbUser = db.Users.Where(l => l.Id == korisnik.id).FirstOrDefault();
+
+            foreach (var team in db.Teams.ToList())
+            {
+                if (team.Users.Contains(dbUser))
+                {
+                    Timovi temp = new Timovi() {
+                        id = team.Id,
+                        imeTima = team.Name
+                    };
+                    timovi.Add(temp);
+                }
+            }
+
+            if(timovi.Count() == 0)
+            {
+                timovi.Add(new Timovi()
+                {
+                    id = 0,
+                    imeTima = "error"
+                });
+            }
+
+            return timovi;
+        }
+
+        [Route("api/Teams/Members")]
+        public List<Members> Post([FromBody] Timovi timovi)
+        {
+            List<Members> clanovi = new List<Members>();
+            var team = db.Teams.Where(l => l.Id == timovi.id).FirstOrDefault();
+
+            foreach (var kor in team.Users)
+            {
+                if (kor.Team.Contains(team))
+                {
+                    Members temp = new Members()
+                    {
+                        ime = kor.Name
+                    };
+                    clanovi.Add(temp);
+                }
+            }
+
+            if (clanovi.Count == 0)
+            {
+                clanovi.Add(new Members()
+                {
+                   ime = "error"
+                });
+            }
+
+            return clanovi;
         }
 
         // GET: api/Teams/5

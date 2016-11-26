@@ -18,7 +18,7 @@ namespace QuizifyWeb.Controllers
         public ActionResult Index()
         {
 
-            return View(db.Quizzes.Where(q => q.Moderator.Equals(CurrentUser) && ).ToList());
+            return View(db.Quizzes.Where(q => q.Moderator.Equals(CurrentUser)).ToList());
         }
 
         // GET: Quizzes/Details/5
