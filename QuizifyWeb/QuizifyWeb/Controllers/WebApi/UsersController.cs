@@ -1,20 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using QuizifyWeb.Models;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
-using QuizifyWeb.Models;
+using Microsoft.Owin.Host.SystemWeb;
+using System.Data.Entity;
 
 namespace QuizifyWeb.Controllers
 {
     public class UsersController : ApiController
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
+
+
+  
+
+        public UsersController()
+        {
+        }
+
+        public UsersController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: api/Users
         public IQueryable<ApplicationUser> GetApplicationUsers()
@@ -33,6 +72,36 @@ namespace QuizifyWeb.Controllers
             }
 
             return Ok(applicationUser);
+        }
+
+        public string Put([FromBody] QuizifyWeb.Common.Users korisnik)
+        {
+            ApplicationUser user = db.Users.Where(l => l.Email == korisnik.email).FirstOrDefault();
+
+            if(user != null)
+            {
+                SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+            }
+            else
+            {
+                var userr = new ApplicationUser();
+                userr.UserName = korisnik.email;
+                userr.Email = korisnik.email;
+                 
+                var registerResult = UserManager.Create(userr, "Default-t-12345");
+            
+
+                    SignInManager.SignIn(userr, isPersistent: false, rememberBrowser: false);
+
+                    var dbUser = db.Users.First(t => t.Email == korisnik.email);
+
+                    dbUser.Name = korisnik.ime;
+                    db.SaveChanges();
+
+                return dbUser.Id;
+            }
+            return "error";
+           
         }
 
         // PUT: api/Users/5
