@@ -19,7 +19,31 @@ namespace QuizifyWeb.Controllers
         // GET: Teams
         public ActionResult Index()
         {
-            return View(db.Teams.ToList());
+            var user =
+                   System.Web.HttpContext.Current.GetOwinContext()
+                       .GetUserManager<ApplicationUserManager>()
+                       .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+            var dbUser = db.Users.First(u => u.Id == user.Id);
+
+
+
+
+            List<Team> timovi = null;
+
+                foreach(var team in db.Teams.ToList())
+                {
+                    if (team.Users.Contains(dbUser))
+                    {
+                        timovi.Add(team);
+                    }
+                 }
+                
+               
+            
+            
+
+            return View(timovi);
         }
 
         // GET: Teams/Details/5
