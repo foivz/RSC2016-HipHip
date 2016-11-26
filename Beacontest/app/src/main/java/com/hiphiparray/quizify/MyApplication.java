@@ -1,4 +1,4 @@
-package com.hiphiparray.beacons.beacontest;
+package com.hiphiparray.quizify;
 
 import android.app.Application;
 import android.app.Notification;

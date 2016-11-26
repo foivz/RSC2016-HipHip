@@ -1,4 +1,4 @@
-package com.hiphiparray.beacons.beacontest;
+package com.hiphiparray.quizify;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

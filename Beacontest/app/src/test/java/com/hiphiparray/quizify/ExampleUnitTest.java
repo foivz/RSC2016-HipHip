@@ -1,4 +1,4 @@
-package com.hiphiparray.beacons.beacontest;
+package com.hiphiparray.quizify;
 
 import org.junit.Test;
 
