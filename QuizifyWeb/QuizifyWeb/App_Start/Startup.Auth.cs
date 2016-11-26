@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.Twitter;
 using Owin;
 using QuizifyWeb.Models;
 
@@ -30,11 +34,12 @@ namespace QuizifyWeb
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                    OnValidateIdentity =
+                        SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                            validateInterval: TimeSpan.FromMinutes(30),
+                            regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -54,15 +59,50 @@ namespace QuizifyWeb
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //todo TWITTER dojkfghsdljkfghowa erčplews4 8orwufhsyjkicmč
+            //app.UseTwitterAuthentication(new TwitterAuthenticationOptions
             //{
-            //    ClientId = "",
-            //    ClientSecret = ""
+            //    ConsumerKey = "GOtHZKM6XThhw5ZIXcd5JzUFm",
+            //    ConsumerSecret = "f8XuYKEOC6mmMAfvAoc0zwM1pR0BvgQosCKIZCg6HgPI8SIbzk",
+            //    BackchannelCertificateValidator = new CertificateSubjectKeyIdentifierValidator(new[]
+            //    {
+            //        "A5EF0B11CEC04103A34A659048B21CE0572D7D47", // VeriSign Class 3 Secure Server CA - G2
+            //        "0D445C165344C1827E1D20AB25F40163D8BE79A5", // VeriSign Class 3 Secure Server CA - G3
+            //        "7FD365A7C2DDECBBF03009F34339FA02AF333133",
+            //        // VeriSign Class 3 Public Primary Certification Authority - G5
+            //        "39A55D933676616E73A761DFA16A7E59CDE66FAD", // Symantec Class 3 Secure Server CA - G4
+            //        "‎add53f6680fe66e383cbac3e60922e3b4c412bed", // Symantec Class 3 EV SSL CA - G3
+            //        "4eb6d578499b1ccf5f581ead56be3d9b6744a5e5", // VeriSign Class 3 Primary CA - G5
+            //        "5168FF90AF0207753CCCD9656462A212B859723B", // DigiCert SHA2 High Assurance Server C‎A 
+            //        "B13EC36903F8BF4701D498261A0802EF63642BC3" // Di
+            //    })
             //});
+
+
+
+
+
+            app.UseFacebookAuthentication(new FacebookAuthenticationOptions()
+            {
+                AppId = "227354991031046",
+                AppSecret = "53184ef4d41714d559952c5aaeb98afc",
+                Scope = { "email" },
+                Provider = new FacebookAuthenticationProvider
+                {
+                    OnAuthenticated = context =>
+                    {
+                        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+                        return Task.FromResult(true);
+                    }
+                }  
+            });
+
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "444562931107-3h4o3dq687jodbu6h5t1c8e48jcnh52o.apps.googleusercontent.com",
+                ClientSecret = "SNtIATpmLaowiS4msgUerCTy"
+            });
         }
     }
 }

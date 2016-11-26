@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace QuizifyWeb.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         public ActionResult Index()
