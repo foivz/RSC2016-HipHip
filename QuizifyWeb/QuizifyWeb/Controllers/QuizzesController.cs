@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -24,13 +26,13 @@ namespace QuizifyWeb.Controllers
 
             foreach (var quiz in db.Quizzes)
             {
-                quiz.Teams.ForEach(t =>
+                foreach (var t in quiz.Teams)
                 {
                     if (t.Users.Contains(user))
                     {
                         quizzes.Add(quiz);
                     }
-                });
+                }
             }
 
 
@@ -58,21 +60,54 @@ namespace QuizifyWeb.Controllers
             return View();
         }
 
+        public class QuizViewModel
+        {
+            public int Id { get; set; }
+            public string DateTime { get; set; }
+            public string Name { get; set; }
+            public QuestionVisibility QuestionVisibility { get; set; }
+            public bool IsPublic { get; set; }
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
+            public string City { get; set; }
+
+            public int QuizCategory { get; set; }
+        }
+
         // POST: Quizzes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,DateTime,Name,QuestionVisibility,IsPublic")] Quiz quiz)
+        //[Bind(Include = "Id,DateTime,Name,QuestionVisibility,Location.Latitude,Location.Longitude,Location.City,QuizCategory,IsPublic")]
+        public ActionResult Create(QuizViewModel quizModel)
         {
             if (ModelState.IsValid)
             {
+
+                var quiz = new Quiz
+                {
+                    DateTime = DateTime.Parse(quizModel.DateTime,new CultureInfo("en-US")),
+                    IsPublic = quizModel.IsPublic,
+                    Location = new Location
+                    {
+                        City = quizModel.City,
+                        Latitude = quizModel.Latitude,
+                        Longitude = quizModel.Longitude
+                    },
+                    Moderator = CurrentUser,
+                    Name = quizModel.Name,
+                    QuestionVisibility = quizModel.QuestionVisibility,
+                    QuizCategory = db.QuizCategories.FirstOrDefault(x => x.Id == quizModel.QuizCategory),
+                };
+
+
                 db.Quizzes.Add(quiz);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(quiz);
+            return View(quizModel);
         }
 
         // GET: Quizzes/Edit/5
