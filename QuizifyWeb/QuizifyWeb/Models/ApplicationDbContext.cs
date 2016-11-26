@@ -39,6 +39,6 @@ namespace QuizifyWeb.Models
             //za fluent api
         }
 
-        public System.Data.Entity.DbSet<QuizifyWeb.Models.ApplicationUser> ApplicationUsers { get; set; }
+        //public DbSet<QuizifyWeb.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
