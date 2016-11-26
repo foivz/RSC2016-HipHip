@@ -12,6 +12,7 @@ using QuizifyWeb.Models;
 
 namespace QuizifyWeb.Controllers
 {
+    [Authorize]
     public class TeamsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -20,28 +21,23 @@ namespace QuizifyWeb.Controllers
         public ActionResult Index()
         {
             var user =
-                   System.Web.HttpContext.Current.GetOwinContext()
-                       .GetUserManager<ApplicationUserManager>()
-                       .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+                System.Web.HttpContext.Current.GetOwinContext()
+                    .GetUserManager<ApplicationUserManager>()
+                    .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
 
             var dbUser = db.Users.First(u => u.Id == user.Id);
 
 
+            List<Team> timovi = new List<Team>();
 
-
-            List<Team> timovi = null;
-
-                foreach(var team in db.Teams.ToList())
+            foreach (var team in db.Teams.ToList())
+            {
+                if (team.Users.Contains(dbUser))
                 {
-                    if (team.Users.Contains(dbUser))
-                    {
-                        timovi.Add(team);
-                    }
-                 }
-                
-               
-            
-            
+                    timovi.Add(team);
+                }
+            }
+
 
             return View(timovi);
         }
@@ -91,6 +87,17 @@ namespace QuizifyWeb.Controllers
                 return RedirectToAction("Index");
             }
 
+            return View(team);
+        }
+
+        // GET: Teams/AddMember
+        public ActionResult AddMember(int? id)
+        {
+            Team team = db.Teams.Find(id);
+            if (team == null)
+            {
+                return RedirectToAction("Index");
+            }
             return View(team);
         }
 

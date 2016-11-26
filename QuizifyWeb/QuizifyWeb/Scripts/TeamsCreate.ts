@@ -1,6 +1,7 @@
 ﻿
 declare var userId;
 
+
 window.onload = () => {
     let membersToAdd: Array<string> = new Array<string>();
 

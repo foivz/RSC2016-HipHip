@@ -36,39 +36,53 @@ namespace QuizifyWeb.Controllers.WebApi
             return Ok(team);
         }
 
-        // PUT: api/Teams/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutTeam(int id, Team team)
+        public class AddUserViewModel
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            public string Email { get; set; }
 
-            if (id != team.Id)
-            {
-                return BadRequest();
-            }
+            public int TeamId { get; set; }
+        }
 
-            db.Entry(team).State = EntityState.Modified;
+        public class SearchUserViewModel
+        {
+            public string Email { get; set; }
+            public string Name { get; set; }
+            public string Id { get; set; }
+        }
 
-            try
+        [ResponseType(typeof(ApplicationUser)),HttpPut]
+        public IHttpActionResult PutApplicationUserToTeam(AddUserViewModel addUserViewModel)
+        {
+            var email = addUserViewModel.Email;
+            var user = db.Users.FirstOrDefault(u => u.Email.Equals(email));
+            var team = db.Teams.FirstOrDefault(t => t.Id == addUserViewModel.TeamId);
+
+            if (user != null && team != null)
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TeamExists(id))
+
+                if (team.Users.Contains(user) == false)
                 {
-                    return NotFound();
+                    team.Users.Add(user);
+
+                    db.SaveChanges();
+
+                    return Ok(new SearchUserViewModel
+                    {
+                      Email  = user.Email,
+                      Name = user.Name,
+                      Id = user.Id
+                    });
+
                 }
                 else
                 {
-                    throw;
+                    return Conflict();
                 }
+
+
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return BadRequest("No user found with that email!");
         }
 
         // POST: api/Teams

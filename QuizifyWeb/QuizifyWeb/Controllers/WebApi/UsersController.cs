@@ -78,6 +78,9 @@ namespace QuizifyWeb.Controllers
             public string Id { get; set; }
         }
 
+
+       
+
         // POST: api/Users
         [ResponseType(typeof(ApplicationUser))]
         public IHttpActionResult PostApplicationUser(SearchUserViewModel searchUserViewModel)
@@ -94,6 +97,7 @@ namespace QuizifyWeb.Controllers
                     Name = user.Name,
                 });
             }
+
             return BadRequest("No user found with that email!");
         }
 
@@ -125,6 +129,36 @@ namespace QuizifyWeb.Controllers
         private bool ApplicationUserExists(string id)
         {
             return db.Users.Count(e => e.Id == id) > 0;
+        }
+
+        [ResponseType(typeof(ApplicationUser))]
+        public IHttpActionResult PutApplicationUser(WebApi.TeamsController.AddUserViewModel addUserViewModel)
+        {
+            var email = addUserViewModel.Email;
+            var user = db.Users.FirstOrDefault(u => u.Email.Equals(email));
+            var team = db.Teams.FirstOrDefault(t => t.Id == addUserViewModel.TeamId);
+
+            if (user != null && team != null)
+            {
+
+                if (team.Users.Contains(user) == false)
+                {
+                    team.Users.Add(user);
+
+                    db.SaveChanges();
+
+                    return Ok(user);
+
+                }
+                else
+                {
+                    return Conflict();
+                }
+
+
+            }
+
+            return BadRequest("No user found with that email!");
         }
     }
 }

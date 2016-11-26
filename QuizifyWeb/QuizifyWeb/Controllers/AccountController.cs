@@ -351,7 +351,7 @@ namespace QuizifyWeb.Controllers
                 var lastNameClaim = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname);
                 var givenNameClaim = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName);
 
-                name = $"{givenNameClaim} {lastNameClaim}";
+                name = $"{givenNameClaim.Value} {lastNameClaim.Value}";
             }
 
 
