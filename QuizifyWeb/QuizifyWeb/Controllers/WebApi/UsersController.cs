@@ -73,7 +73,7 @@ namespace QuizifyWeb.Controllers
 
             return Ok(applicationUser);
         }
-
+        [Route("api/Users/Login")]
         public string Put([FromBody] QuizifyWeb.Common.Users korisnik)
         {
             ApplicationUser user = db.Users.Where(l => l.Email == korisnik.email).FirstOrDefault();
@@ -105,39 +105,39 @@ namespace QuizifyWeb.Controllers
         }
 
         // PUT: api/Users/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutApplicationUser(string id, ApplicationUser applicationUser)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult PutApplicationUser(string id, ApplicationUser applicationUser)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != applicationUser.Id)
-            {
-                return BadRequest();
-            }
+        //    if (id != applicationUser.Id)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            db.Entry(applicationUser).State = EntityState.Modified;
+        //    db.Entry(applicationUser).State = EntityState.Modified;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ApplicationUserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!ApplicationUserExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
 
         public class SearchUserViewModel
