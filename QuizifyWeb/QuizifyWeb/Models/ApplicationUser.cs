@@ -10,6 +10,7 @@ namespace QuizifyWeb.Models
     public class ApplicationUser : IdentityUser
     {
         public ICollection<Team> Team { get; set; }
+        public string Name { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
