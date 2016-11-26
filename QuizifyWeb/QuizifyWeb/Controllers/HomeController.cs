@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
 using QuizifyWeb.Models;
 
@@ -14,7 +11,7 @@ namespace QuizifyWeb.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return View(db.Quizzes.Where(q => q.IsPublic).ToList());
         }
 
         public ActionResult About()

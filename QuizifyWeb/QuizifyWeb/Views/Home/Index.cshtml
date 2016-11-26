@@ -1,4 +1,6 @@
-﻿@{
+﻿@model  List<QuizifyWeb.Models.Quiz>
+
+@{
     ViewBag.Title = "Home Page";
 }
 <style>
@@ -16,7 +18,9 @@
            Quiz making made easy!
         </p>
         <p>
-            <a class="btn-primary btn-lg animated fadeIn" id="button">MAKE A QUIZ</a>
+            
+            @Html.ActionLink("MAKE A QUIZ", "Create", "Quizzes",null, new { @class = "btn-primary btn-lg animated fadeIn" })
+            @*<a class="btn-primary btn-lg animated fadeIn" id="button">MAKE A QUIZ</a>*@
             <a class="btn btn-default btn-lg animated fadeIn" id="button">TAKE A TOUR</a>
         </p>
     </div>
@@ -44,27 +48,31 @@
 
             <table class="table left">
                 <thead class="thead"> 
-                    <tr><td>Name</td>
-                    <td>Location</td>
-                    <td>Category</td>
+                    <tr>
+                        <th>Name</th>
+                        <th>Moderator</th>
+                        <th>Category</th>
+                        <th>Location</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Quiz1</td>
-                        <td>Varaždin</td>
-                        <td>Software</td>
-                    </tr>
-                    <tr>
-                        <td>Quiz2</td>
-                        <td>Varaždin</td>
-                        <td>Software</td>
-                    </tr>
-                    <tr>
-                        <td>Quiz3</td>
-                        <td>Varaždin</td>
-                        <td>Software</td>
-                    </tr>
+                        
+
+
+                        @foreach (var quiz in Model)
+                        {
+                            <tr>
+                                <td> @quiz.Name </td>
+
+                                <td> @quiz.Moderator.Name </td>
+
+
+                                <td> @quiz.QuizCategory.Name </td>
+
+                                <td> @quiz.Location.City </td>
+                            </tr>
+                        }
+
                     <tr>
                         <td colspan="3" style="text-align:right"><a href="">View more...</a></td>
                     </tr>

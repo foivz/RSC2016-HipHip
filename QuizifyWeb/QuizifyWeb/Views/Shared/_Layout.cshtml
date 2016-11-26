@@ -44,7 +44,7 @@
                     {
                         <text>class="active"</text>
                     }>
-                    @Html.ActionLink("Quizzes", "Quizzes", "Home")</li>
+                    @Html.ActionLink("Quizzes", "Index", "Quizzes")</li>
                 @if (Request.IsAuthenticated)
                 {
                     <li @if (url.Contains("Teams"))
