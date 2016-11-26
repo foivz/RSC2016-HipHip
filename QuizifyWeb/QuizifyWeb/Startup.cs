@@ -10,5 +10,7 @@ namespace QuizifyWeb
         {
             ConfigureAuth(app);
         }
+
+
     }
 }
