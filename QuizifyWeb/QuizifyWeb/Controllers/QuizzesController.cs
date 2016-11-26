@@ -20,6 +20,7 @@ namespace QuizifyWeb.Controllers
         {
             var user = CurrentUser;
 
+
             var quizzes = new List<Quiz>(db.Quizzes.Where(q => q.Moderator.Id.Equals(user.Id)).ToList());
 
             foreach (var quiz in db.Quizzes)
@@ -35,6 +36,9 @@ namespace QuizifyWeb.Controllers
 
 
             return View(quizzes);
+
+            return View(db.Quizzes.Where(q => q.Moderator.Equals(CurrentUser)).ToList());
+
         }
 
         // GET: Quizzes/Details/5

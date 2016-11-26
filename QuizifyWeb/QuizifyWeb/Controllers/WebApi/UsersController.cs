@@ -12,6 +12,10 @@ using System.Data.Entity;
 
 namespace QuizifyWeb.Controllers
 {
+    public class PutLoginReturn
+    {
+        public string ret { get; set; }
+    }
     public class UsersController : ApiController
     {
         private ApplicationSignInManager _signInManager;
@@ -74,13 +78,14 @@ namespace QuizifyWeb.Controllers
             return Ok(applicationUser);
         }
         [Route("api/Users/Login")]
-        public string Put([FromBody] QuizifyWeb.Common.Users korisnik)
+        public PutLoginReturn Put([FromBody] QuizifyWeb.Common.Users korisnik)
         {
             ApplicationUser user = db.Users.Where(l => l.Email == korisnik.email).FirstOrDefault();
 
             if(user != null)
             {
                 SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+                return new PutLoginReturn() { ret = user.Id };
             }
             else
             {
@@ -98,9 +103,9 @@ namespace QuizifyWeb.Controllers
                     dbUser.Name = korisnik.ime;
                     db.SaveChanges();
 
-                return dbUser.Id;
+                return new PutLoginReturn() { ret = dbUser.Id };
             }
-            return "error";
+            return new PutLoginReturn() { ret = "error" };
            
         }
 
