@@ -29,6 +29,17 @@ namespace QuizifyWeb.Controllers.WebApi
         public string id { get; set; }
     }
 
+    public class TeamMembers {
+        public int idTima { get; set; }
+        public string idKor { get; set; }
+        }
+
+    public class TeamCreate
+    {
+        public string imeTima { get; set; }
+        public string idKor { get; set; }
+    }
+
     public class TeamsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -70,10 +81,10 @@ namespace QuizifyWeb.Controllers.WebApi
         }
 
         [Route("api/Teams/Members")]
-        public List<Members> Post([FromBody] Timovi timovi)
+        public List<Members> Post([FromBody] TeamMembers timovi)
         {
             List<Members> clanovi = new List<Members>();
-            var team = db.Teams.Where(l => l.Id == timovi.id).FirstOrDefault();
+            var team = db.Teams.Where(l => l.Id == timovi.idTima).FirstOrDefault();
 
             foreach (var kor in team.Users)
             {
@@ -96,6 +107,83 @@ namespace QuizifyWeb.Controllers.WebApi
             }
 
             return clanovi;
+        }
+
+        [Route("api/Teams/Add")]
+        public Korisnik Put([FromBody] TeamCreate tim)
+        {
+            Team novi = new Team() {
+                Name = tim.imeTima
+            };
+
+            var user = db.Users.Where(l => l.Id == tim.idKor).FirstOrDefault();
+
+            if(user != null)
+            {
+                novi.Users.Add(user);
+                db.Teams.Add(novi);
+                db.SaveChanges();
+
+                return new Korisnik() { id = "1" };
+            }
+            return new Korisnik() { id = "0" };
+
+        }
+
+        [Route("api/Teams/Members")]
+        public Members Put([FromBody] TeamMembers timovi)
+        {
+            var user = db.Users.Where(l => l.Id == timovi.idKor).FirstOrDefault();
+
+            if(user != null)
+            {
+                List<Members> clanovi = new List<Members>();
+                var team = db.Teams.Where(l => l.Id == timovi.idTima).FirstOrDefault();
+                if (team != null)
+                {
+                    foreach (var kor in team.Users)
+                    {
+                        if (kor == user)
+                        {
+                            Members temp = new Members()
+                            {
+                                ime = kor.Name
+                            };
+                            clanovi.Add(temp);
+                        }
+                    }
+
+                    if (clanovi.Count == 0)
+                    {
+                        team.Users.Add(user);
+                        db.SaveChanges();
+                        return new Members()
+                        {
+                            ime = "true"
+                        };
+                    }
+                    else
+                    {
+                        return new Members()
+                        {
+                            ime = "1"
+                        };
+                    }
+                }
+                else
+                {
+                    return new Members()
+                    {
+                        ime = "2"
+                    };
+                }
+            }
+            else
+            {
+                return new Members() {
+                    ime = "0"
+                };
+            }
         }
 
         // GET: api/Teams/5
@@ -178,7 +266,7 @@ namespace QuizifyWeb.Controllers.WebApi
             teamModel.UserIds.ForEach(id =>
             {
                 var user = db.Users.Find(id);
-
+                
                 team.Users.Add(user);
             });
 
