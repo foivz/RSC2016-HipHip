@@ -1,0 +1,39 @@
+﻿@model System.Collections.Generic.List<QuizifyWeb.Models.Quiz>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid row">
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Moderator</th>
+            <th>Category</th>
+            <th>Location</th>
+        </tr>
+
+
+        @foreach (var quiz in Model)
+        {
+            <tr>
+                <td> @quiz.Name </td>
+            </tr>
+
+            <tr>
+                <td> @quiz.Moderator.Name </td>
+            </tr>
+
+
+            <tr>
+                <td> @quiz.QuizCategory.Name </td>
+            </tr>
+
+            <tr>
+                <td> @quiz.Location.City </td>
+            </tr>
+        }
+
+    </table>
+</div>

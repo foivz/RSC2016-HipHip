@@ -1,13 +1,9 @@
 ﻿using System.Data.Entity;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace QuizifyWeb.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-   
 
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -15,12 +11,12 @@ namespace QuizifyWeb.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-
         }
 
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Arrival> Arrivals { get; set; }
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<QuestionCategory> QuestionCategories { get; set; }
+        public DbSet<QuizCategory> QuizCategories { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
@@ -38,6 +34,8 @@ namespace QuizifyWeb.Models
             base.OnModelCreating(modelBuilder);
             //za fluent api
         }
+
+        //public System.Data.Entity.DbSet<QuizifyWeb.Models.ApplicationUser> ApplicationUsers { get; set; }
 
         //public DbSet<QuizifyWeb.Models.ApplicationUser> ApplicationUsers { get; set; }
     }

@@ -1,36 +1,78 @@
-﻿@model QuizifyWeb.Models.Team
+﻿@using Microsoft.AspNet.Identity
+@using QuizifyWeb.Models
+@model QuizifyWeb.Models.Team
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var user = ApplicationDbContext.Create().Users.Find(User.Identity.GetUserId());
 }
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Team</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Team</h4>
+    <hr/>
+    @*@Html.ValidationSummary(true, "", new {@class = "text-danger"})
         <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control",id="create-team"}})
+                @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
             </div>
+        </div>*@
+
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Team name</label>
+        <input class="input text-box single-line" id="TeamName" name="TeamName" type="text" placeholder="Enter team name..." value="">
+        <div class="col-md-10">
+            <button id="btn-create" class="btn btn-primary">Create</button>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
     </div>
-}
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Member email</label>
+        <input class="input text-box single-line" id="MemberEmail" name="MemberEmail" type="text" placeholder="Enter member email..." value="">
+        <div class="col-md-10">
+            <button id="btn-add-member" class="btn btn-primary">Add</button>
+        </div>
+
+    </div>
+
+
+    @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" for="create-team" value="Create" class="btn btn-default"/>
+            </div>
+        </div>*@
+
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        
+        <tr>
+            <td>
+                @user.Name
+            </td>
+            <td>
+                @user.Email
+            </td>
+        </tr>
+
+    </table>
+</div>
+
+<script>
+    var userId = "@(User.Identity.GetUserId())";
+</script>
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -38,4 +80,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/TeamsCreate.js")
 }

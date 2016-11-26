@@ -333,25 +333,32 @@ namespace QuizifyWeb.Controllers
 
             var identity = AuthenticationManager.GetExternalIdentity(DefaultAuthenticationTypes.ExternalCookie);
 
+            string name = "default";
+
 
             if (loginInfo.Login.LoginProvider.ToLower() == "facebook")
             {
                 var accessToken = identity.FindFirstValue("FacebookAccessToken");
                 var fb = new FacebookClient(accessToken);
-                dynamic myInfo = fb.Get("/me?fields=email"); // specify the email field
+                dynamic myInfo = fb.Get("/me?fields=name,email"); // specify the email field
                 loginInfo.Email = myInfo.email;
+                name = myInfo.name;
             }
 
             if (loginInfo.Login.LoginProvider.ToLower() == "google")
             {
                 loginInfo.Email = identity.FindFirstValue(ClaimTypes.Email);
+                var lastNameClaim = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Surname);
+                var givenNameClaim = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.GivenName);
+
+                name = $"{givenNameClaim.Value} {lastNameClaim.Value}";
             }
 
 
-            if (loginInfo.Login.LoginProvider.ToLower() == "twitter")
-            {
-                loginInfo.Email = identity.FindFirstValue(ClaimTypes.Email);
-            }
+            //if (loginInfo.Login.LoginProvider.ToLower() == "twitter")
+            //{
+            //    loginInfo.Email = identity.FindFirstValue(ClaimTypes.Email);
+            //}
 
             if (db.Users.Where(u => u.Email.Equals(loginInfo.Email)).ToList().Count == 1)
             {
@@ -367,16 +374,16 @@ namespace QuizifyWeb.Controllers
                     Email = loginInfo.Email
                 };
                 var registerResult =
-                    UserManager.Create(user,$"Default-t-12345");
+                    UserManager.Create(user,"Default-t-12345");
                 if (registerResult.Succeeded)
                 {
                     SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    var dbUser = db.Users.First(t => t.Email == loginInfo.Email);
+
+                    dbUser.Name = name;
+                    db.SaveChanges();
+
 
                 }
                 AddErrors(registerResult);

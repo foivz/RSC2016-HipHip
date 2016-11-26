@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using QuizifyWeb.Models;
 
 namespace QuizifyWeb.Controllers
 {
     [RequireHttps]
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index()
         {
             return View();
@@ -26,6 +29,13 @@ namespace QuizifyWeb.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Quizzes()
+        {
+            ViewBag.Message = "Quizzess";
+
+            return View(db.Quizzes.Where(q => q.IsPublic).ToList());
         }
     }
 }
