@@ -13,6 +13,7 @@ namespace QuizifyWeb.Models
     {
         public int Id { get; set; }
         public DateTimeOffset DateTime { get; set; }
+        public string Name { get; set; }
         public QuestionVisibility QuestionVisibility { get; set; }
         public bool IsPublic { get; set; }
         public virtual ApplicationUser Moderator { get; set; }

@@ -188,6 +188,7 @@
     <Compile Include="Controllers\ApplicationUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\QuizzesController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\WebApi\TeamsController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
@@ -221,6 +222,10 @@
     <Compile Include="Migrations\201611261747342_UserNameAdd.cs" />
     <Compile Include="Migrations\201611261747342_UserNameAdd.Designer.cs">
       <DependentUpon>201611261747342_UserNameAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611262101494_QuizNameAdd.cs" />
+    <Compile Include="Migrations\201611262101494_QuizNameAdd.Designer.cs">
+      <DependentUpon>201611262101494_QuizNameAdd.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -303,6 +308,12 @@
     <Content Include="Views\ApplicationUsers\Index.cshtml" />
     <Content Include="web.config" />
     <Content Include="Views\Teams\AddMember.cshtml" />
+    <Content Include="Views\Home\Quizzes.cshtml" />
+    <Content Include="Views\Quizzes\Create.cshtml" />
+    <Content Include="Views\Quizzes\Delete.cshtml" />
+    <Content Include="Views\Quizzes\Details.cshtml" />
+    <Content Include="Views\Quizzes\Edit.cshtml" />
+    <Content Include="Views\Quizzes\Index.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -342,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611261747342_UserNameAdd.resx">
       <DependentUpon>201611261747342_UserNameAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611262101494_QuizNameAdd.resx">
+      <DependentUpon>201611262101494_QuizNameAdd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
