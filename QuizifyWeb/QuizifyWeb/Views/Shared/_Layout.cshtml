@@ -2,67 +2,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>@ViewBag.Title [Quizify]</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap-datetimepicker.css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-                <a class="navbar-brand" onclick="window.location.reload()">
-                    <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAElklEQVRoQ82ai1EUQRCGuyNQIpCLQIhAjUCJQIhAiUCNQIhAiUCIQIhAiECJQIigrW/tvprd292Zfd0xVVd3Vzs723+/H6sy0zKzAxF5JSL7IsJvvvmk60FEbkXkj3+uVfVmDhJ0yiFm9lpE3ovIOxF5PuGsSxG5VNWLsWeMAmJmEP+5wfF7Ebl2jldcV1U4v15mBtiQFt8w4mWyBYmdici5qvK7eA0C0gIA4nkwKgLxg5eZoX4A+piAGgyoCIg/7Js/EGLvkIiqohKzLbczJP3WD0WiJ6qKpHtXFoiZof+AQC0e4Zyqfs8dPOW62x6SDrXjmed9Z/YCMbNjB8EZVyJyPFR3JwJCOp/8jO+qetJ1XieQBohTVYVDW1+uEWjAMxHpBNMKpAECHV1UlXLccdvBTjrBbABx/fzph+8cRIBsgPmiqqjdetWAuJ//7Ya9sTnHuaWvN5j8JvVmTSCoEMHuRlXx7YstM7O2w1U154DCARBwV3HG+qYELS72oBmV50Y0Fgh0mBnx5YWIrLUmBYJdIIWtqFQACQk0//cxLmE6GcCKkFAB8ciNbSCN/W3EiilAnGa8GNl25ZACCDHig4hcqCpBMLumqIYTUtnIGIn4/RGsb1X1MIAgDZK3w9Lkb9dAHAyqRWxZaapWqlpcU8ygGpMk4kBIWkkwTwBCUvhjqMt9IkDCFZ8DJP4M8lZPBAheFm97sxiQnA1NZYSrVg1IuLFayM+5rRwh2wBS835mtiiQLveaY0SOkUky+d9pmFnEkEE1R46QqddLgHhG/GsrNrKkRJJUpTL2iJBXqoorLlpTOZ67v4QIM6Pz8rXKSBLx1NLi3EE5QqZezz3fDT3KjtNIUSItHpyijFWdHNBCIH+9CFwFkEBWHBRzhEy9ngOS2Me9qu4HENqXWP+Dqu7lDkn9d3NvU0Jjr+doMLPIsyrmp4VVxJMiN1wa8JYAktg1x++tC6tGuF9XXTmu7Oq6mW1Us83mQ0iFFv/Rrgjte27icmvVbFs7CA9GsfJkelpJOoItIw3qpqO0id7WoIv6hPuL3fHS0vOeGw6JSnajJO9qmUaNgr2QFY+afcwFzkEgCSRyp6p811ZfEztiy07BuIdirFGBoGXV1uXJdfXC+IsD5VxScE+azmY6QbC3FMigomsqGFclpBBJLENShj2dc8UckGgTbQWIA6C/RlYbEzJGfNnZTJ+NRNryOKRNNEYabgcASMfcTMiQQm0y3HV+ibEzKoZD2eU9MprLeJZONTCzeLGA5gGf9MUCAJyVDEBTgrrcb0iDvTSJs1xpDE3TZ8REtu1NiNjHmJskEADZZ7VxtC0gopvhs7PScL2mSoueMd6FM5BM1+K1DQgmPo2e0fdKxMzoOqKrve7O3SNDIQyxc3TtdQPbN96EyOrqgA1pGg8xgEBnScgIPK0RveUNiEGGOYC+4q1pYRXRsxWEexYkgApFsxvdxrPM+gZEMfXJxuiioOMQh6fBQ6G/GHy8BIOU0k49aodh7nRsXbORrkqvhSvx9g8AdppEtnotL1QwbiRAHRILriMZ3OcsnmWMypTe8w/LiVx6aNm8kgAAAABJRU5ErkJggg==" title="Poll Topic" width="32"></span>
-                    Quizify
-                </a>
+            <a class="navbar-brand" onclick="window.location.reload()">
+                <span><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAElklEQVRoQ82ai1EUQRCGuyNQIpCLQIhAjUCJQIhAiUCNQIhAiUCIQIhAiECJQIigrW/tvprd292Zfd0xVVd3Vzs723+/H6sy0zKzAxF5JSL7IsJvvvmk60FEbkXkj3+uVfVmDhJ0yiFm9lpE3ovIOxF5PuGsSxG5VNWLsWeMAmJmEP+5wfF7Ebl2jldcV1U4v15mBtiQFt8w4mWyBYmdici5qvK7eA0C0gIA4nkwKgLxg5eZoX4A+piAGgyoCIg/7Js/EGLvkIiqohKzLbczJP3WD0WiJ6qKpHtXFoiZof+AQC0e4Zyqfs8dPOW62x6SDrXjmed9Z/YCMbNjB8EZVyJyPFR3JwJCOp/8jO+qetJ1XieQBohTVYVDW1+uEWjAMxHpBNMKpAECHV1UlXLccdvBTjrBbABx/fzph+8cRIBsgPmiqqjdetWAuJ//7Ya9sTnHuaWvN5j8JvVmTSCoEMHuRlXx7YstM7O2w1U154DCARBwV3HG+qYELS72oBmV50Y0Fgh0mBnx5YWIrLUmBYJdIIWtqFQACQk0//cxLmE6GcCKkFAB8ciNbSCN/W3EiilAnGa8GNl25ZACCDHig4hcqCpBMLumqIYTUtnIGIn4/RGsb1X1MIAgDZK3w9Lkb9dAHAyqRWxZaapWqlpcU8ygGpMk4kBIWkkwTwBCUvhjqMt9IkDCFZ8DJP4M8lZPBAheFm97sxiQnA1NZYSrVg1IuLFayM+5rRwh2wBS835mtiiQLveaY0SOkUky+d9pmFnEkEE1R46QqddLgHhG/GsrNrKkRJJUpTL2iJBXqoorLlpTOZ67v4QIM6Pz8rXKSBLx1NLi3EE5QqZezz3fDT3KjtNIUSItHpyijFWdHNBCIH+9CFwFkEBWHBRzhEy9ngOS2Me9qu4HENqXWP+Dqu7lDkn9d3NvU0Jjr+doMLPIsyrmp4VVxJMiN1wa8JYAktg1x++tC6tGuF9XXTmu7Oq6mW1Us83mQ0iFFv/Rrgjte27icmvVbFs7CA9GsfJkelpJOoItIw3qpqO0id7WoIv6hPuL3fHS0vOeGw6JSnajJO9qmUaNgr2QFY+afcwFzkEgCSRyp6p811ZfEztiy07BuIdirFGBoGXV1uXJdfXC+IsD5VxScE+azmY6QbC3FMigomsqGFclpBBJLENShj2dc8UckGgTbQWIA6C/RlYbEzJGfNnZTJ+NRNryOKRNNEYabgcASMfcTMiQQm0y3HV+ibEzKoZD2eU9MprLeJZONTCzeLGA5gGf9MUCAJyVDEBTgrrcb0iDvTSJs1xpDE3TZ8REtu1NiNjHmJskEADZZ7VxtC0gopvhs7PScL2mSoueMd6FM5BM1+K1DQgmPo2e0fdKxMzoOqKrve7O3SNDIQyxc3TtdQPbN96EyOrqgA1pGg8xgEBnScgIPK0RveUNiEGGOYC+4q1pYRXRsxWEexYkgApFsxvdxrPM+gZEMfXJxuiioOMQh6fBQ6G/GHy8BIOU0k49aodh7nRsXbORrkqvhSvx9g8AdppEtnotL1QwbiRAHRILriMZ3OcsnmWMypTe8w/LiVx6aNm8kgAAAABJRU5ErkJggg==" title="Poll Topic" width="32"></span>
+                Quizify
+            </a>
 
 
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @{
-                        string url = HttpContext.Current.Request.Url.AbsolutePath;
-                    }
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @{
+                    string url = HttpContext.Current.Request.Url.AbsolutePath;
+                }
 
-                    <li @if (url.Contains("Home") || url == "/") { <text>class="active"</text> }>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li @if (url.Contains("Quizzes")) { <text>class="active"</text> }>@Html.ActionLink("Quizzes", "Quizzes", "Home")</li>
-                    @if (Request.IsAuthenticated)
+                <li @if (url.Contains("Home") || url == "/")
                     {
-                        <li @if (url.Contains("Teams")) { <text>class="active"</text> }>@Html.ActionLink("My Teams", "Index", "Teams")</li>
-                    }
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
+                        <text>class="active"</text>
+                    }>
+                    @Html.ActionLink("Home", "Index", "Home")</li>
+                <li @if (url.Contains("Quizzes"))
+                    {
+                        <text>class="active"</text>
+                    }>
+                    @Html.ActionLink("Quizzes", "Quizzes", "Home")</li>
+                @if (Request.IsAuthenticated)
+                {
+                    <li @if (url.Contains("Teams"))
+                        {
+                            <text>class="active"</text>
+                        }>
+                        @Html.ActionLink("My Teams", "Index", "Teams")</li>
+                }
+            </ul>
+            @Html.Partial("_LoginPartial")
         </div>
     </div>
-    <div class="body-content">
-        @RenderBody()
-        <hr />
-        <footer style="background:#111; text-align:center; color:#FFF;">
-            <p>&copy; @DateTime.Now.Year - Quizify</p>
-        </footer>
-    </div>
+</div>
+<div class="body-content">
+    @RenderBody()
+    <hr/>
+    <footer style="background: #111; text-align: center; color: #FFF;">
+        <p>&copy; @DateTime.Now.Year - Quizify</p>
+    </footer>
+</div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/Scripts/moment.min.js")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/Scripts/bootstrap-datetimepicker.js")
+
+
+@RenderSection("scripts", required: false)
 </body>
 </html>
 
 <script>
 
-    $(document).ready(function() {
+    $(document)
+        .ready(function() {
 
-        console.log(window.location.search);
+            console.log(window.location.search);
 
-    });
+        });
 
 </script>

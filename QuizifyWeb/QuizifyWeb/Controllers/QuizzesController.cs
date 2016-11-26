@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -7,7 +8,7 @@ using QuizifyWeb.Models;
 
 namespace QuizifyWeb.Controllers
 {
-    [RequireHttps,Authorize]
+    [RequireHttps, Authorize]
     public class QuizzesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -17,8 +18,23 @@ namespace QuizifyWeb.Controllers
         // GET: Quizzes
         public ActionResult Index()
         {
+            var user = CurrentUser;
 
-            return View(db.Quizzes.Where(q => q.Moderator.Equals(CurrentUser) && ).ToList());
+            var quizzes = new List<Quiz>(db.Quizzes.Where(q => q.Moderator.Id.Equals(user.Id)).ToList());
+
+            foreach (var quiz in db.Quizzes)
+            {
+                quiz.Teams.ForEach(t =>
+                {
+                    if (t.Users.Contains(user))
+                    {
+                        quizzes.Add(quiz);
+                    }
+                });
+            }
+
+
+            return View(quizzes);
         }
 
         // GET: Quizzes/Details/5

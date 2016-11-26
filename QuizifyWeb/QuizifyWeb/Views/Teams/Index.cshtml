@@ -6,13 +6,15 @@
 }
 <div class="container">
     <br />
-<h1 class="lead">Your teams</h1>
+    <h1 class="lead">Your teams</h1>
+    
 
-@if (Model != null && Model.ToList().Count > 0)
-{
     <p>
         @Html.ActionLink("+ Create New", "Create", null, new { @class = "btn btn-success" })
     </p>
+
+    @if (Model != null && Model.ToList().Count > 0)
+{
 
     <table class="table table-striped table-hover">
         <thead class="thead">
