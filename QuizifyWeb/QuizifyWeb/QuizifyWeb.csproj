@@ -193,17 +193,38 @@
     <Compile Include="Migrations\201611261107479_Initial.Designer.cs">
       <DependentUpon>201611261107479_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611261603355_QuizCategoryAdd.cs" />
+    <Compile Include="Migrations\201611261603355_QuizCategoryAdd.Designer.cs">
+      <DependentUpon>201611261603355_QuizCategoryAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611261614093_QuizIsPublicAdd.cs" />
+    <Compile Include="Migrations\201611261614093_QuizIsPublicAdd.Designer.cs">
+      <DependentUpon>201611261614093_QuizIsPublicAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611261636097_TeamFix.cs" />
+    <Compile Include="Migrations\201611261636097_TeamFix.Designer.cs">
+      <DependentUpon>201611261636097_TeamFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611261639090_TeamFix1.cs" />
+    <Compile Include="Migrations\201611261639090_TeamFix1.Designer.cs">
+      <DependentUpon>201611261639090_TeamFix1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611261642565_QuizTeamsM2M.cs" />
+    <Compile Include="Migrations\201611261642565_QuizTeamsM2M.Designer.cs">
+      <DependentUpon>201611261642565_QuizTeamsM2M.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Arrival.cs" />
-    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\QuestionCategory.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Quiz.cs" />
+    <Compile Include="Models\QuizCategory.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\UserAnswer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -290,6 +311,21 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611261107479_Initial.resx">
       <DependentUpon>201611261107479_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611261603355_QuizCategoryAdd.resx">
+      <DependentUpon>201611261603355_QuizCategoryAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611261614093_QuizIsPublicAdd.resx">
+      <DependentUpon>201611261614093_QuizIsPublicAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611261636097_TeamFix.resx">
+      <DependentUpon>201611261636097_TeamFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611261639090_TeamFix1.resx">
+      <DependentUpon>201611261639090_TeamFix1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611261642565_QuizTeamsM2M.resx">
+      <DependentUpon>201611261642565_QuizTeamsM2M.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

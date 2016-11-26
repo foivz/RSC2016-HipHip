@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using QuizifyWeb.Models;
 
 namespace QuizifyWeb.Controllers
@@ -27,7 +29,7 @@ namespace QuizifyWeb.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Team team = db.Teams.Find(id);
+            var team = db.Teams.Find(id);
             if (team == null)
             {
                 return HttpNotFound();
@@ -50,8 +52,18 @@ namespace QuizifyWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user =
+                    System.Web.HttpContext.Current.GetOwinContext()
+                        .GetUserManager<ApplicationUserManager>()
+                        .FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+
+                var dbUser = db.Users.First(u => u.Id == user.Id);
+
+                team.Users.Add(dbUser);
                 db.Teams.Add(team);
+
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 

@@ -17,7 +17,7 @@ namespace QuizifyWeb.Models
     {
         public int Id { get; set; }
         public string Text { get; set; }
-        public virtual Category Category { get; set; }
+        public virtual QuestionCategory QuestionCategory { get; set; }
         public QuestionType QuestionType { get; set; }
     }
 }

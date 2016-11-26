@@ -367,7 +367,7 @@ namespace QuizifyWeb.Controllers
                     Email = loginInfo.Email
                 };
                 var registerResult =
-                    UserManager.Create(user,$"Default-t-12345");
+                    UserManager.Create(user,"Default-t-12345");
                 if (registerResult.Succeeded)
                 {
                     SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
