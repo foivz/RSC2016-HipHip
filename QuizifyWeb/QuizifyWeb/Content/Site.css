@@ -1,0 +1,129 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.navbar{
+    background:	#222;
+}
+
+.navbar-default .navbar-nav>.active>a,.navbar-default .navbar-nav>.active>a:hover,.navbar-default .navbar-nav>.active>a:focus
+{
+    color:#212121;
+    background-color:#e67e22;
+}
+
+header.image-bg-fluid-height {
+    position:relative;
+    margin-top:64px;
+    background:#000;
+    background-image: url(../Content/Images/header.jpg);
+     width:100%; 
+     height: 500px;
+     -webkit-box-shadow:inset 0 0 5px 3px rgba(0,0,0,0.5);
+box-shadow:inset 0 0 5px 3px rgba(0,0,0,0.5);
+}
+header.image-bg-fluid-height h2{
+    color:#FFF;
+    font-size: 70px;
+    font-family: 'Roboto', serif;
+    margin-top:120px;
+    margin-left:150px;
+    text-shadow: 3px 3px 5px #000;
+}
+
+header.image-bg-fluid-height p{
+    color:#E4F1FE;
+    font-size:25px;
+    margin-left:155px;
+    margin-top:-15px;
+   
+
+}
+.shadow{
+     text-shadow: 3px 3px 5px #000;
+}
+.h300{
+    height:290px;
+}
+.white{
+    background:#ecf0f1;
+    -webkit-box-shadow: 0 -7px 5px 3px rgba(0,0,0,0.5);
+box-shadow: 0 -7px 5px 3px rgba(0,0,0,0.5);
+}
+
+.black{
+    background:#222;
+        -webkit-box-shadow:inset 0 0 5px 3px rgba(0,0,0,0.5);
+box-shadow:inset 0 0 5px 3px rgba(0,0,0,0.5);
+}
+
+.dole{
+
+    margin-left:155px;
+}
+
+.btn-group > .btn, .btn-group-vertical > .btn{
+    background:#222;
+}
+
+.clicked{
+    background:#E75926;
+}
+.left{
+    margin-left:155px;
+}
+.top10 {
+    margin-top: 10px;
+}
+input.form-control{
+    background:#222;
+    width:500px;
+    margin-top:15px;
+    height:42px; 
+}
+.input-black{
+    
+}
+
+.pomakni{
+    margin-left:155px;
+    margin-top:30px;
+    font-size:34px;
+    font-weight:bold;
+    font-family: 'Roboto', serif;
+    color:#222;
+}
+
+.h-container{
+    width:500px;
+    float:left;
+    height:100%;
+}
+.thead td{
+    color:#222;
+    font-weight:bold;
+    border-bottom:1px solid #222;
+}
