@@ -1,4 +1,103 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+<style>
+    body{
+        margin:0;
+        padding:0;
+    }
+</style>
+<header class="image-bg-fluid-height" >
+    <div class="container">
+        <h2 class="animated bounceInLeft" id="title"> 
+            Quizify
+        </h2>
+        <p class="shadow animated bounceInRight" id="text">
+           Quiz making made easy!
+        </p>
+        <p>
+            <a class="btn-primary btn-lg animated fadeIn" id="button">MAKE A QUIZ</a>
+            <a class="btn btn-default btn-lg animated fadeIn" id="button">TAKE A TOUR</a>
+        </p>
+    </div>
+</header>
+<div class="container-fluid white h300">
+    <div class="container">
+        <div class="h-container">
+        <h4 class="pomakni">
+            Search for a quiz?
+        </h4>
+        <div class="btn-group dole" role="group" aria-label="...">
+            <button type="button" class="btn btn-lg btn-primary" id="one" onclick="clicked(1)">By category</button>
+            <button type="button" class="btn btn-lg btn-primary" id="two" onclick="clicked(2)">By location</button>
+           
+        </div>
+        
+           
+            <input type="text" class="form-control left top15" style="padding-left:10px;box-sizing:border-box;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px; " placeholder="City" aria-describedby="sizing-addon1">
+            <input type="submit" value="Search" class="form-control left top15" style="background:#E75926;color:#FFF; padding-left:10px;box-sizing:border-box;-webkit-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px; " placeholder="Username" aria-describedby="sizing-addon1">
+            </div>
+        <div class="h-container left-border">
+            <h4 class="pomakni">
+                List of quizes!
+            </h4>
 
+            <table class="table left">
+                <thead class="thead"> 
+                    <tr><td>Name</td>
+                    <td>Location</td>
+                    <td>Category</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Quiz1</td>
+                        <td>Varaždin</td>
+                        <td>Software</td>
+                    </tr>
+                    <tr>
+                        <td>Quiz2</td>
+                        <td>Varaždin</td>
+                        <td>Software</td>
+                    </tr>
+                    <tr>
+                        <td>Quiz3</td>
+                        <td>Varaždin</td>
+                        <td>Software</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align:right"><a href="">View more...</a></td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid black h300">
+    <div class="container">
+        
+    </div>
+</div>
+
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+
+
+
+    <script>
+        function clicked(num){
+            if (num == 1) {
+                $("#one").css("background", "#E75926");
+                $("#two").css("background", "#222");
+            } else {
+                $("#one").css("background", "#222");
+                $("#two").css("background", "#E75926");
+            }
+        }
+        $(document).ready(function () {
+
+            $("#one").click();
+
+        });
+    </script>
