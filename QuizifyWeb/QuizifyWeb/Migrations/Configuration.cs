@@ -1,3 +1,5 @@
+using QuizifyWeb.Models;
+
 namespace QuizifyWeb.Migrations
 {
     using System;
@@ -26,6 +28,34 @@ namespace QuizifyWeb.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            //context.QuestionCategories.Add(new QuestionCategory
+            //{
+            //    Name = "A",
+            //    Quiz = context.Quizzes.Find(4)
+            //});
+
+            //context.QuestionCategories.Add(new QuestionCategory
+            //{
+            //    Name = "B",
+            //    Quiz = context.Quizzes.Find(4)
+            //});
+
+
+            //context.QuestionCategories.Add(new QuestionCategory
+            //{
+            //    Name = "C",
+            //    Quiz = context.Quizzes.Find(4)
+            //});
+
+            //context.QuestionCategories.Add(new QuestionCategory
+            //{
+            //    Name = "D",
+            //    Quiz = context.Quizzes.Find(4)
+            //});
+
+            //context.SaveChanges();
+
         }
     }
 }

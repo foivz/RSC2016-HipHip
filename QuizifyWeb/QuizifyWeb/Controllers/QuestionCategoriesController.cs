@@ -10,114 +10,107 @@ using QuizifyWeb.Models;
 
 namespace QuizifyWeb.Controllers
 {
-    public class QuestionsController : Controller
+    public class QuestionCategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Questions
-        public ActionResult Index(int id)
+        // GET: QuestionCategories
+        public ActionResult Index()
         {
-            var list = db.Questions.Where(l => l.Quiz.Id == id).ToList();
-            return View(list);
+            return View(db.QuestionCategories.ToList());
         }
 
-        // GET: Questions/Details/5
+        // GET: QuestionCategories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var question = db.Questions.Find(id);
-            if (question == null)
+            QuestionCategory questionCategory = db.QuestionCategories.Find(id);
+            if (questionCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(question);
+            return View(questionCategory);
         }
 
-        // GET: Questions/Create
+        // GET: QuestionCategories/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Questions/Create
+        // POST: QuestionCategories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Text,QuestionType")] Question question)
+        public ActionResult Create([Bind(Include = "Id,Name")] QuestionCategory questionCategory)
         {
             if (ModelState.IsValid)
             {
-                db.Questions.Add(question);
+                db.QuestionCategories.Add(questionCategory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(question);
+            return View(questionCategory);
         }
 
-        // GET: Questions/Edit/5
+        // GET: QuestionCategories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Question question = db.Questions.Find(id);
-            if (question == null)
+            QuestionCategory questionCategory = db.QuestionCategories.Find(id);
+            if (questionCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(question);
+            return View(questionCategory);
         }
 
-        // POST: Questions/Edit/5
+        // POST: QuestionCategories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Text,QuestionType")] Question question)
+        public ActionResult Edit([Bind(Include = "Id,Name")] QuestionCategory questionCategory)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(question).State = EntityState.Modified;
+                db.Entry(questionCategory).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(question);
+            return View(questionCategory);
         }
 
-        // GET: Questions/Delete/5
+        // GET: QuestionCategories/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Question question = db.Questions.Find(id);
-            if (question == null)
+            QuestionCategory questionCategory = db.QuestionCategories.Find(id);
+            if (questionCategory == null)
             {
                 return HttpNotFound();
             }
-            return View(question);
+            return View(questionCategory);
         }
 
-        // POST: Questions/Delete/5
+        // POST: QuestionCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Question question = db.Questions.Find(id);
-
-            foreach (var answer in db.Answers.Where(a => a.Question.Id == id))
-            {
-                db.Answers.Remove(answer);
-            }
-
-            db.Questions.Remove(question);
+            QuestionCategory questionCategory = db.QuestionCategories.Find(id);
+            db.QuestionCategories.Remove(questionCategory);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

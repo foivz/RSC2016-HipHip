@@ -9,9 +9,8 @@
 
     @if (Request.IsAuthenticated)
     {
-
         <p>
-            @Html.ActionLink("+ Create New", "Create", null, new { @class = "btn btn-success" })
+            @Html.ActionLink("+ Create New", "Create", null, new {@class = "btn btn-success"})
         </p>
         <table class="table">
             <tr>
@@ -33,16 +32,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.QuestionType)
                     </td>
+
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @*@Html.ActionLink("Add answer", "Create", "Answers", null, new {id = item.Id})*@ 
+                        
+                        <a href="/Answers/Create/@(item.Id)">Add answer</a>|
+                        @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
+                        @Html.ActionLink("Delete", "Delete", new {id = item.Id})
                     </td>
                 </tr>
             }
 
         </table>
-
     }
     else
     {
