@@ -65,6 +65,12 @@
                 @Html.ValidationMessageFor(model => model.QuestionCategory, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+        
+        <div class="form-group" style="display: none;">
+            <input class="form-control text-box single-line" id="quizId" name="quizId" type="number" value="@(Model.Quiz.Id)">
+
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

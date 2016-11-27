@@ -234,6 +234,10 @@
     <Compile Include="Migrations\201611270135401_QuizonqAdd.Designer.cs">
       <DependentUpon>201611270135401_QuizonqAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611270356047_QuizStartAndDurationAdd.cs" />
+    <Compile Include="Migrations\201611270356047_QuizStartAndDurationAdd.Designer.cs">
+      <DependentUpon>201611270356047_QuizStartAndDurationAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs" />
@@ -378,8 +382,12 @@
     <EmbeddedResource Include="Migrations\201611270135401_QuizonqAdd.resx">
       <DependentUpon>201611270135401_QuizonqAdd.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611270356047_QuizStartAndDurationAdd.resx">
+      <DependentUpon>201611270356047_QuizStartAndDurationAdd.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="Scripts\AddTeam.ts" />
     <TypeScriptCompile Include="Scripts\TeamsAddMember.ts" />
     <TypeScriptCompile Include="Scripts\TeamsCreate.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />

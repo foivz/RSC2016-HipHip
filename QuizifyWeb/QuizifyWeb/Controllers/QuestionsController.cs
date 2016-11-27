@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using QuizifyWeb.Models;
 
@@ -17,6 +14,7 @@ namespace QuizifyWeb.Controllers
         // GET: Questions
         public ActionResult Index(int id)
         {
+
             var list = db.Questions.Where(l => l.Quiz.Id == id).ToList();
             return View(list);
         }
@@ -36,24 +34,37 @@ namespace QuizifyWeb.Controllers
             return View(question);
         }
 
-        // GET: Questions/Create
-        public ActionResult Create()
+        // GET: Questions/Create/4
+        public ActionResult Create(int id)
         {
-            return View();
+            return View(new Question
+            {
+                Quiz = db.Quizzes.Find(id)
+            });
         }
 
         // POST: Questions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Text,QuestionType")] Question question)
+        //[Bind(Include = "Id,Text,QuestionType")] 
+        public ActionResult Create([FromBody]string text,int questionType,int questionCategory,int quizId)
         {
+
+            var question = new Question
+            {
+                Text = text,
+                Quiz = db.Quizzes.Find(quizId),
+                QuestionCategory = db.QuestionCategories.Find(questionCategory),
+                QuestionType = (QuestionType) questionType
+            };
+
             if (ModelState.IsValid)
             {
                 db.Questions.Add(question);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new {id = question.Quiz.Id});
             }
 
             return View(question);
@@ -77,7 +88,7 @@ namespace QuizifyWeb.Controllers
         // POST: Questions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Text,QuestionType")] Question question)
         {
@@ -106,7 +117,7 @@ namespace QuizifyWeb.Controllers
         }
 
         // POST: Questions/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [System.Web.Mvc.HttpPost, System.Web.Mvc.ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

@@ -13,6 +13,8 @@ namespace QuizifyWeb.Models
     {
         public int Id { get; set; }
         public DateTimeOffset DateTime { get; set; }
+        public DateTimeOffset DateTimeStarted { get; set; }
+        public TimeSpan Duration { get; set; }
         public string Name { get; set; }
         public QuestionVisibility QuestionVisibility { get; set; }
         public bool IsPublic { get; set; }

@@ -14,6 +14,8 @@ namespace QuizifyWeb.Models
         public ICollection<Team> Team { get; set; }
         public string Name { get; set; }
 
+        public bool IsPresent { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -25,6 +27,7 @@ namespace QuizifyWeb.Models
         public ApplicationUser()
         {
             Team = new List<Team>();
+            IsPresent = false;
         }
     }
 }

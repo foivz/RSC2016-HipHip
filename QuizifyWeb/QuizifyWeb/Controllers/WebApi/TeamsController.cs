@@ -29,10 +29,11 @@ namespace QuizifyWeb.Controllers.WebApi
         public string id { get; set; }
     }
 
-    public class TeamMembers {
+    public class TeamMembers
+    {
         public int idTima { get; set; }
         public string idKor { get; set; }
-        }
+    }
 
     public class TeamCreate
     {
@@ -60,7 +61,8 @@ namespace QuizifyWeb.Controllers.WebApi
             {
                 if (team.Users.Contains(dbUser))
                 {
-                    Timovi temp = new Timovi() {
+                    Timovi temp = new Timovi()
+                    {
                         id = team.Id,
                         imeTima = team.Name
                     };
@@ -68,7 +70,7 @@ namespace QuizifyWeb.Controllers.WebApi
                 }
             }
 
-            if(timovi.Count() == 0)
+            if (timovi.Count() == 0)
             {
                 timovi.Add(new Timovi()
                 {
@@ -102,7 +104,7 @@ namespace QuizifyWeb.Controllers.WebApi
             {
                 clanovi.Add(new Members()
                 {
-                   ime = "error"
+                    ime = "error"
                 });
             }
 
@@ -112,22 +114,22 @@ namespace QuizifyWeb.Controllers.WebApi
         [Route("api/Teams/Add")]
         public Korisnik Put([FromBody] TeamCreate tim)
         {
-            Team novi = new Team() {
+            Team novi = new Team()
+            {
                 Name = tim.imeTima
             };
 
             var user = db.Users.Where(l => l.Id == tim.idKor).FirstOrDefault();
 
-            if(user != null)
+            if (user != null)
             {
                 novi.Users.Add(user);
                 db.Teams.Add(novi);
                 db.SaveChanges();
 
-                return new Korisnik() { id = "1" };
+                return new Korisnik() {id = "1"};
             }
-            return new Korisnik() { id = "0" };
-
+            return new Korisnik() {id = "0"};
         }
 
         [Route("api/Teams/Members")]
@@ -135,7 +137,7 @@ namespace QuizifyWeb.Controllers.WebApi
         {
             var user = db.Users.Where(l => l.Id == timovi.idKor).FirstOrDefault();
 
-            if(user != null)
+            if (user != null)
             {
                 List<Members> clanovi = new List<Members>();
                 var team = db.Teams.Where(l => l.Id == timovi.idTima).FirstOrDefault();
@@ -180,7 +182,8 @@ namespace QuizifyWeb.Controllers.WebApi
             }
             else
             {
-                return new Members() {
+                return new Members()
+                {
                     ime = "0"
                 };
             }
@@ -213,7 +216,7 @@ namespace QuizifyWeb.Controllers.WebApi
             public string Id { get; set; }
         }
 
-        [ResponseType(typeof(ApplicationUser)),HttpPut]
+        [ResponseType(typeof(ApplicationUser)), HttpPut]
         public IHttpActionResult PutApplicationUserToTeam(AddUserViewModel addUserViewModel)
         {
             var email = addUserViewModel.Email;
@@ -222,7 +225,6 @@ namespace QuizifyWeb.Controllers.WebApi
 
             if (user != null && team != null)
             {
-
                 if (team.Users.Contains(user) == false)
                 {
                     team.Users.Add(user);
@@ -231,18 +233,15 @@ namespace QuizifyWeb.Controllers.WebApi
 
                     return Ok(new SearchUserViewModel
                     {
-                      Email  = user.Email,
-                      Name = user.Name,
-                      Id = user.Id
+                        Email = user.Email,
+                        Name = user.Name,
+                        Id = user.Id
                     });
-
                 }
                 else
                 {
                     return Conflict();
                 }
-
-
             }
 
             return BadRequest("No user found with that email!");
@@ -252,9 +251,6 @@ namespace QuizifyWeb.Controllers.WebApi
         [ResponseType(typeof(Team))]
         public IHttpActionResult PostTeam(TeamViewModel teamModel)
         {
-         
-
-
             var team = db.Teams.Add(new Team
             {
                 Name = teamModel.Name
@@ -266,7 +262,7 @@ namespace QuizifyWeb.Controllers.WebApi
             teamModel.UserIds.ForEach(id =>
             {
                 var user = db.Users.Find(id);
-                
+
                 team.Users.Add(user);
             });
 
@@ -308,8 +304,7 @@ namespace QuizifyWeb.Controllers.WebApi
 
     public class TeamViewModel
     {
-        public  ICollection<string> UserIds { get; set; }
+        public ICollection<string> UserIds { get; set; }
         public string Name { get; set; }
-
     }
 }
