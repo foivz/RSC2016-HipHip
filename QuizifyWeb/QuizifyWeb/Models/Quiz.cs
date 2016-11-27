@@ -18,9 +18,11 @@ namespace QuizifyWeb.Models
         public string Name { get; set; }
         public QuestionVisibility QuestionVisibility { get; set; }
         public bool IsPublic { get; set; }
+        public bool IsPrepared { get; set; }
         public virtual ApplicationUser Moderator { get; set; }
         public virtual List<Team> Teams { get; set; }
         public virtual Location Location { get; set; }
         public virtual QuizCategory QuizCategory { get; set; }
+
     }
 }

@@ -239,6 +239,10 @@
     <Compile Include="Migrations\201611270356047_QuizStartAndDurationAdd.Designer.cs">
       <DependentUpon>201611270356047_QuizStartAndDurationAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611270510476_QuizIsPreparedAdd.cs" />
+    <Compile Include="Migrations\201611270510476_QuizIsPreparedAdd.Designer.cs">
+      <DependentUpon>201611270510476_QuizIsPreparedAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs" />
@@ -385,6 +389,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611270356047_QuizStartAndDurationAdd.resx">
       <DependentUpon>201611270356047_QuizStartAndDurationAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611270510476_QuizIsPreparedAdd.resx">
+      <DependentUpon>201611270510476_QuizIsPreparedAdd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

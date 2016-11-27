@@ -33,6 +33,21 @@ namespace QuizifyWeb.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult RemoveFromQuiz([FromBody]int teamId, int quizId)
+        {
+
+            var team = db.Teams.Find(teamId);
+            var quiz = db.Quizzes.Find(quizId);
+
+            quiz.Teams.Remove(team);
+
+            db.SaveChanges();
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
         // GET: Quizzes
         public ActionResult Index()
         {
