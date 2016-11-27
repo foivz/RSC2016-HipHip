@@ -24,10 +24,11 @@ namespace QuizifyWeb.Controllers.WebApi
         [Route("api/Alex/Start")]
         public void Post([FromBody] qId q)
         {
-            var quiz = db.Quizzes.Where(l => l.Id == int.Parse(q.Id)).FirstOrDefault();
+            int temp_Id = int.Parse(q.Id);
+            var quiz = db.Quizzes.Where(l => l.Id == temp_Id).FirstOrDefault();
 
             quiz.DateTimeStarted = (DateTimeOffset.Now).AddSeconds(5);
-
+            
             db.SaveChanges();
 
         }
