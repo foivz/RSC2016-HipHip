@@ -3,42 +3,36 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
-        android:text="Quiz"
+        android:text="Quizzes"
+        android:gravity="center"
+        android:textSize="25sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:gravity="center"
         android:textColor="@color/black"
         android:background="@drawable/title"
-        android:id="@+id/textView8" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        android:id="@+id/question"/>
+        android:id="@+id/textView6"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below ="@+id/question">
+        android:layout_below ="@+id/textView6">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/popisOdgovora"
+            android:id="@+id/popisQuizzes"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
 
-            android:layout_below ="@+id/question"
+            android:layout_below ="@+id/textView6"
             android:background="#D3DFEB">
 
 
         </LinearLayout>
     </ScrollView>
+
 
 </LinearLayout>

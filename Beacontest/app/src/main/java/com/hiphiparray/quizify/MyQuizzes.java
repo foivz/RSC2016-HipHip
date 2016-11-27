@@ -1,5 +1,6 @@
 package com.hiphiparray.quizify;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,11 +31,13 @@ public class MyQuizzes extends AppCompatActivity {
 
     SharedPreferences preferences;
     String userId;
+    String name;
+    int id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.quiz_layout);
+        setContentView(R.layout.quizzes_layout);
 
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -65,19 +69,27 @@ public class MyQuizzes extends AppCompatActivity {
                             try{
 
                                 JSONObject object = response.getJSONObject(i);
-                                //final String a  = object.getString("ime");
 
 
-                                String e = object.getString("name");
+                                name = object.getString("name");
+                                id = object.getInt("id");
                                 //teams.add(name);
 
-                                Log.d("QUIZ",e);
+                                Log.d("QUIZ",name);
 
                                 TextView pogled = new TextView(MyQuizzes.this);
                                 int idd = pogled.generateViewId();
 
-                                pogled.setText(Html.fromHtml("<font color=\"#222222\"><big>"+e+"</big></font>"));
+                                pogled.setText(Html.fromHtml("<font color=\"#222222\"><big>"+name+"</big></font>"));
                                 pogled.setHeight(150);
+                                pogled.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        TextView t = (TextView)v;
+                                        startQuiz(id);
+
+                                    }
+                                });
 
 
                                 prostorZaPopis.addView(pogled);
@@ -105,6 +117,18 @@ public class MyQuizzes extends AppCompatActivity {
                     }});
         queue.add(postRequest);
 
+    }
+
+    public void startQuiz(int id){
+
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("QuizId", id+1);
+        editor.commit();
+
+        Intent intent = new Intent(this,Quiz.class);
+        startActivity(intent);
     }
 
 }

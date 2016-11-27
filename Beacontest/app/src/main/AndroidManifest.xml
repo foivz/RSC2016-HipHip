@@ -41,6 +41,11 @@
             android:screenOrientation="portrait">
 
         </activity>
+
+        <activity android:name=".Quiz"
+            android:screenOrientation="portrait">
+
+        </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ccd38310c9f071809468af8c432fca85578386ef" />
