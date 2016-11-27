@@ -1,30 +1,58 @@
-﻿@model QuizifyWeb.Models.Quiz
+﻿@using QuizifyWeb.Models
+@model QuizifyWeb.Models.Quiz
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var db = ApplicationDbContext.Create();
 }
+<br/>
 
+<div class="container">
 <div class="container-fluid row">
-    
-    
-    <h2>
+
+
+    <h3>
         Quiz ID:
-        <h2 class="text-success" id="quiz-id">@Model.Id</h2>
-    </h2>
+        <h4 class="text-success" id="quiz-id">@Model.Id</h4>
+    </h3>
 
-    <h2 >
+    <h3 >
         Starting time:
-        <h2 class="text-success" id="start-time">@(Model.DateTimeStarted.Year == 1? "Not started yet..." : Model.DateTimeStarted.ToString("HH:mm:ss") )</h2>
-    </h2>
-    
-    <h2>
-        Duration:
-        <h2 class="text-success">@Model.Duration</h2>
-    </h2>
-    
-    
+        <h4 class="text-success" id="start-time">@(Model.DateTimeStarted.Year == 1 ? "Not started yet..." : Model.DateTimeStarted.ToString("HH:mm:ss"))</h4>
+    </h3>
 
+    <h3>
+        Duration:
+        <h4 class="text-success">@Model.Duration</h4>
+    </h3>
+
+
+    <div class="questions col-lg-12 col-md-12 col-sm-12" style="display: none;">
+        
+        <ul class="pager" style="margin-bottom: 20px;">
+            <li class="next"><a href="#">Next &rarr;</a></li>
+        </ul>
+
+        @foreach (var question in db.Questions.Where(x => x.Quiz.Id == Model.Id))
+        {
+            <div data-question-id="@question.Id" class="quest list-group" style="display: none;">
+                <a href="#" class="list-group-item active">
+                    @question.Text
+                </a>
+
+
+                @foreach (var answer in db.Answers.Where(x => x.Question.Id == question.Id))
+                {
+                    <a class="list-group-item" style="color: @(answer.IsCorrectAnswer ? "green" : "black")">
+                        @answer.Text
+                    </a>
+                }
+
+            </div>
+        }
+    </div>
 
     <h2>Teams</h2>
     @foreach (var team in Model.Teams)
@@ -39,7 +67,7 @@
             </tr>
 
 
-            @foreach (var user in team.Users.OrderBy(x => x.IsPresent))
+            @foreach (var user in team.Users.OrderByDescending(x => x.IsPresent))
             {
                 <tr class="tr-user" data-user-id="@user.Id">
                     <td>
@@ -58,6 +86,7 @@
         </table>
     }
 </div>
+    </div>
 
 @Scripts.Render("~/Scripts/Extensions.js")
 @Scripts.Render("~/Scripts/Play.js")

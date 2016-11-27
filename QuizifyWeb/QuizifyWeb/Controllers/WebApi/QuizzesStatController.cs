@@ -17,5 +17,13 @@ namespace QuizifyWeb.Controllers.WebApi
             var q = db.Quizzes.Find(id);
             return Ok(new { DateTime = q.DateTimeStarted.Year == 1 ? "1" : q.DateTimeStarted.ToString("HH:mm:ss")});
         }
+
+        //[HttpPost]
+        //public IHttpActionResult Post([FromBody])
+        //{
+
+
+        //    return Ok();
+        //}
     }
 }

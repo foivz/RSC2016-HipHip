@@ -198,6 +198,8 @@
     <Compile Include="Controllers\WebApi\BeaconController.cs" />
     <Compile Include="Controllers\WebApi\QuizzesController.cs" />
     <Compile Include="Controllers\WebApi\QuizzesStatController.cs" />
+    <Compile Include="Controllers\WebApi\RollerController.cs" />
+    <Compile Include="Controllers\WebApi\StartController.cs" />
     <Compile Include="Controllers\WebApi\TeamsController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
     <Compile Include="Global.asax.cs">
