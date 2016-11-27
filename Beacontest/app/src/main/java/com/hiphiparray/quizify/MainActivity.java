@@ -1,5 +1,9 @@
 package com.hiphiparray.quizify;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,20 +17,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.estimote.sdk.Beacon;
+import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.Region;
 import com.facebook.FacebookSdk;
 
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.facebook.appevents.AppEventsLogger;
 
+import java.util.List;
+import java.util.UUID;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private BeaconManager beaconManager;
     final static int LogIn = 1;
     String username;
-
+    NavigationView navigationView;
     @Override
     protected void onResume() {
         super.onResume();
@@ -40,6 +51,35 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
+        beaconManager = new BeaconManager(getApplicationContext());
+        beaconManager.setMonitoringListener(new BeaconManager.MonitoringListener() {
+            @Override
+            public void onEnteredRegion(Region region, List<Beacon> list) {
+                showNotification(
+                        "Ušli ste u područje u kojemu se održava ispit.",
+                        "Vaše prisustvo je automatski zabilježeno "
+                                + "Ukoliko ste u timu, pronađite vaše kolege."
+                                + "Na aplikaciji provjerite kada počinje kviz");
+            }
+            @Override
+            public void onExitedRegion(Region region) {
+                showNotification("Upozorenje!",
+                        "Izlazite iz zone u kojoj se održava ispit!" +
+                                "Ukoliko tijekom ispita niste u toj zoni, nećete moći pristupiti polaganju ispita!");
+            }
+        });
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                beaconManager.startMonitoring(new Region(
+                        "monitored region",
+                        UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null));
+            }
+
+        });
+        beaconManager.setBackgroundScanPeriod(1500, 1000);
+
+
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -48,14 +88,7 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(intent, LogIn);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -64,8 +97,9 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -110,7 +144,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,MyTeams.class);
             startActivity(intent);
         } else if (id == R.id.particpates) {
-
+            Intent intent = new Intent(this,MyQuizzes.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -125,8 +160,29 @@ public class MainActivity extends AppCompatActivity
         if(requestCode == LogIn && data != null){
             username = data.getStringExtra("Username");
 
-            Toast.makeText(this,username,Toast.LENGTH_LONG).show();
+            View header=navigationView.getHeaderView(0);
+            TextView text = (TextView) header.findViewById(R.id.username);
+            text.setText(username);
 
         }
     }
+
+    public void showNotification(String title, String message) {
+        Intent notifyIntent = new Intent(this, MainActivity.class);
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivities(this, 0,
+                new Intent[] { notifyIntent }, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notification = new Notification.Builder(this)
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .build();
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notification);
+    }
+
 }

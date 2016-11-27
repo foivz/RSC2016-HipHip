@@ -9,5 +9,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/name"
         android:textSize="20sp"
+        android:gravity="center"
         android:textColor="@color/black"/>
 </LinearLayout>

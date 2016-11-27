@@ -1,38 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:text="No."
-        android:layout_width="0dp"
+        android:text="Quizzes"
+        android:gravity="center"
+        android:textSize="25sp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:textColor="@color/black"
-        android:id="@+id/no." />
+        android:id="@+id/textView6"
+        />
 
-    <TextView
-        android:text="Category"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/category"
-        android:textColor="@color/black"
-        android:layout_weight="1" />
+        android:layout_below ="@+id/textView6">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/popisQuizzes"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_below ="@+id/textView6"
+            android:background="#D3DFEB">
 
-    <TextView
-        android:text="Name of Quiz"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/quizName"
-        android:textColor="@color/black"
-        android:layout_weight="1" />
 
-    <TextView
-        android:text="Location"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/quizLocation"
-        android:textColor="@color/black"
-        android:layout_weight="1" />
+        </LinearLayout>
+    </ScrollView>
+
 
 </LinearLayout>

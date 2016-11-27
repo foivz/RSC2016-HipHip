@@ -9,7 +9,7 @@
         <item
             android:id="@+id/particpates"
 
-            android:title="My participations" />
+            android:title="My Quizzes" />
 
     </group>
 

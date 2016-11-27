@@ -13,9 +13,27 @@
         android:layout_marginBottom="30dp"
         android:layout_centerInParent="true"/>
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/logo"
+        android:id="@+id/imageView"
 
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp" />
 
-
+    <TextView
+        android:text="Quizzify"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/login_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp"
+        android:id="@+id/textView5" />
 
 
 </RelativeLayout>
