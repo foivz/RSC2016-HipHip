@@ -10,30 +10,28 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by TOSHIBA on 26.11.2016..
+ * Created by TOSHIBA on 27.11.2016..
  */
 
-public class TeamListAdapter extends BaseAdapter {
+public class TeamNamesAdapter extends BaseAdapter {
 
-    private ArrayList<String> teams;
-    TextView teamName;
-    TextView teamNo;
     LayoutInflater inflater;
+    ArrayList<String> names;
+    TextView members;
 
-    public TeamListAdapter(ArrayList<String> teams, Context context) {
-        this.teams = teams;
+    public TeamNamesAdapter(ArrayList<String> names, Context context){
+        this.names = names;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-
     @Override
     public int getCount() {
-        return teams.size();
+        return names.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return teams.get(i);
+        return names.get(i);
     }
 
     @Override
@@ -44,15 +42,14 @@ public class TeamListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
-        if (view == null){
-            view =  inflater.inflate(R.layout.item_team, null);
-            teamName = (TextView) view.findViewById(R.id.teamName);
-            teamNo = (TextView) view.findViewById(R.id.teamNumber);
-        }
+
+        view = inflater.inflate(R.layout.item_membernames, viewGroup, false);
+        members = (TextView) view.findViewById(R.id.name);
 
 
-        teamName.setText(teams.get(i));
-        teamNo.setText(i+"");
+
+        members.setText(names.get(i));
+
 
         return view;
     }

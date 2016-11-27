@@ -4,11 +4,20 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:text="No."
+        android:textColor="@color/black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/teamNumber"
+        android:textSize="25sp"
+        android:layout_weight="0.2" />
+
+    <TextView
         android:text="Team name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/teamName"
-        android:textSize="15sp"
+        android:textSize="25sp"
         android:textColor="@color/black"
-        android:layout_weight="1" />
+        android:layout_weight="1.8" />
 </LinearLayout>

@@ -1,14 +1,20 @@
 package com.hiphiparray.quizify;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.ExecutorDelivery;
@@ -23,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.data;
@@ -32,30 +39,51 @@ import static android.R.attr.data;
  */
 
 public class MyTeams extends AppCompatActivity {
+
+    ArrayList<String> teams;
+    ListView listOfTeams;
+    String id;
+    String name;
+    Context context;
+    SharedPreferences preferences;
+    SharedPreferences.Editor editor;
+    String userId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.myteams_layout);
 
 
+        context = getApplicationContext();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        userId = preferences.getString("UserId","Default_Value");
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String userId = preferences.getString("UserId","Default_Value");
-
+        teams = new ArrayList<String>();
+        listOfTeams = (ListView) findViewById(R.id.teamList);
         sendUserId(userId);
 
+/*
+        listOfTeams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-       // ArrayAdapter<String> adapter = new ArrayAdapter(this,R.layout.item_team,);
-        //ListView listView = new ListView(this);
-        //listView.setAdapter(adapter);
+                TeamDetail teamDetail = TeamDetail.newInstance(userId);
+                teamDetail.show(getFragmentManager(),"TeamDetail");
+            }
+        });*/
+
     }
 
+    public void leo(String i){
+        Log.d("DSFD", i);
+    }
     public void sendUserId(String userId){
 
         RequestQueue queue = Volley.newRequestQueue(this);
         String url = "http://quizify.online/api/Teams/My";
         String prepData = "{\"id\":\""+userId+"\"}";
+
 
         JSONObject data = null;
         try{
@@ -69,21 +97,40 @@ public class MyTeams extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d("DSFD", response.toString());
+                        LinearLayout prostorZaPopis = (LinearLayout)findViewById(R.id.popisNaloga);
                         for(int i = 0; i < response.length(); i++){
 
-                            try{
-                                JSONObject object = response.getJSONObject(i);
-                                String id = object.getString("id");
-                                String name = object.getString("name");
 
-                                if(id.compareTo("0")==1)
-                                    Toast.makeText(getApplicationContext(),"You don't have teams ", Toast.LENGTH_SHORT).show();
+                            try{
+
+                                JSONObject object = response.getJSONObject(i);
+                                final String a  = object.getString("id");
+                                String e = object.getString("imeTima");
+                                //teams.add(name);
+
+                                TextView pogled = new TextView(MyTeams.this);
+                                int idd = pogled.generateViewId();
+
+                                pogled.setText(Html.fromHtml("<font color=\"#222222\"><big>"+e+"</big></font>"));
+                                pogled.setHeight(150);
+                                pogled.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        TextView t = (TextView)v;
+                                        odaberiNalog(a);
+
+                                    }
+                                });
+                                Log.d("DSFD", "IDDDD: "+a+"");
+                                prostorZaPopis.addView(pogled);
+
                                 Log.d("DSFD", name);
                             }
                             catch (Exception e){
                                 Log.e("Likvidatura", "Greška kod kreiranja popisa!");
                             }
                         }
+                       // setAdapter();
                     }
                 },
                 new Response.ErrorListener() {
@@ -98,5 +145,32 @@ public class MyTeams extends AppCompatActivity {
                     }});
         queue.add(postRequest);
 
+
+
+
+    }
+    public void odaberiNalog(String i){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("TimId", i);
+        editor.commit();
+        //TeamDetail teamDetail = TeamDetail.newInstance(userId);
+
+
+        //TeamDetail teamDetail = new TeamDetail();
+        //teamDetail.show(getFragmentManager(),"TeamDetail");
+
+        Intent intent = new Intent(this,TeamMembers.class);
+        startActivity(intent);
+
+    }
+    public void setAdapter(){
+        if(id == "0"){
+            Toast.makeText(getApplicationContext(),Toast.LENGTH_SHORT,Toast.LENGTH_SHORT).show();
+        }else{
+            TeamListAdapter teamListAdapter = new TeamListAdapter(teams, context);
+            listOfTeams.setAdapter(teamListAdapter);
+        }
     }
 }

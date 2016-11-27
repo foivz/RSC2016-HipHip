@@ -32,6 +32,8 @@
         <activity android:name=".MyQuizzes">
 
         </activity>
+
+        <activity android:name=".TeamMembers"></activity>
     </application>
 
 </manifest>
