@@ -21,6 +21,7 @@
                 <th>Moderator</th>
                 <th>Category</th>
                 <th>Location</th>
+                <th>Options</th>
             </tr>
 
 
@@ -34,7 +35,18 @@
 
                     <td> @quiz.QuizCategory.Name </td>
 
-                    @*<td> @quiz.Location.City </td>*@
+                    <td> @quiz.Location.City </td>
+                    
+                    
+
+
+                    
+
+                    <td>
+                        
+                        @Html.ActionLink("Edit", "Edit", new {id = quiz.Id}) |
+                        @Html.ActionLink("Delete", "Delete", new {id = quiz.Id})
+                    </td>
                 </tr>
             }
 

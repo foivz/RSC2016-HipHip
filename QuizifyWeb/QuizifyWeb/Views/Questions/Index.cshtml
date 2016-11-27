@@ -1,0 +1,52 @@
+﻿@model IEnumerable<QuizifyWeb.Models.Question>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row container-fluid" style="margin-top: 50px;">
+
+    @if (Request.IsAuthenticated)
+    {
+        <p>
+            @Html.ActionLink("+ Create New", "Create", null, new {@class = "btn btn-success"})
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Text)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.QuestionType)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuestionType)
+                    </td>
+
+                    <td>
+                        @*@Html.ActionLink("Add answer", "Create", "Answers", null, new {id = item.Id})*@ 
+                        
+                        <a href="/Answers/Create/@(item.Id)">Add answer</a>|
+                        @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
+                        @Html.ActionLink("Delete", "Delete", new {id = item.Id})
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        //redirect
+    }
+</div>
