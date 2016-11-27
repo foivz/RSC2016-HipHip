@@ -31,3 +31,4 @@ window.onload = function () {
         }).fail(function () { return alert("Failed :(!"); });
     });
 };
+//# sourceMappingURL=TeamsCreate.js.map
