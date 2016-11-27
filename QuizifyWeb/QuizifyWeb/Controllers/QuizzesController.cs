@@ -41,21 +41,30 @@ namespace QuizifyWeb.Controllers
 
             var quizzes = new List<Quiz>(db.Quizzes.Where(q => q.Moderator.Id.Equals(user.Id)).ToList());
 
+
+
+
             foreach (var quiz in db.Quizzes)
             {
-                foreach (var t in quiz.Teams)
+
+
+                if (quizzes.Contains(quiz) == false && quiz.Teams.Any(x => x.Users.Any(s => s.Id == user.Id)))
                 {
-                    if (t.Users.Contains(user))
-                    {
-                        quizzes.Add(quiz);
-                    }
+                    quizzes.Add(quiz);
                 }
+
+                //foreach (var t in quiz.Teams)
+                //{
+                //    if (t.Users.Contains(user))
+                //    {
+                //        quizzes.Add(quiz);
+                //    }
+                //}
             }
 
 
             return View(quizzes);
 
-            return View(db.Quizzes.Where(q => q.Moderator.Equals(CurrentUser)).ToList());
 
         }
 

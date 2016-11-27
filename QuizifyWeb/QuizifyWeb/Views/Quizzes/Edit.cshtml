@@ -69,7 +69,7 @@
         
         <h2>Dodani timovi --- Promemni ovo bre</h2>
 
-        <table class="table">
+        <table class="table table-added-teams">
             <tr>
                 <th>
                     Name
@@ -121,7 +121,7 @@
 
             @foreach (var item in ApplicationDbContext.Create().Teams.Where(x => x.Quizzes.Any(i => i.Id ==  Model.Id) == false))
             {
-                <tr data-team-id="@(item.Id)">
+                <tr class="teams" data-team-id="@(item.Id)">
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
@@ -214,5 +214,6 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Extensions.js")
     @Scripts.Render("~/Scripts/AddTeam.js")
 }
