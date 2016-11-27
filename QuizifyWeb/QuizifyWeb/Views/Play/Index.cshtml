@@ -1,0 +1,63 @@
+﻿@model QuizifyWeb.Models.Quiz
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid row">
+    
+    
+    <h2>
+        Quiz ID:
+        <h2 class="text-success" id="quiz-id">@Model.Id</h2>
+    </h2>
+
+    <h2 >
+        Starting time:
+        <h2 class="text-success" id="start-time">@(Model.DateTimeStarted.Year == 1? "Not started yet..." : Model.DateTimeStarted.ToString("HH:mm:ss") )</h2>
+    </h2>
+    
+    <h2>
+        Duration:
+        <h2 class="text-success">@Model.Duration</h2>
+    </h2>
+    
+    
+
+
+    <h2>Teams</h2>
+    @foreach (var team in Model.Teams)
+    {
+        <h3>@team.Name</h3>
+        <table class="table">
+
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Present</th>
+            </tr>
+
+
+            @foreach (var user in team.Users.OrderBy(x => x.IsPresent))
+            {
+                <tr class="tr-user" data-user-id="@user.Id">
+                    <td>
+                        @user.Name
+                    </td>
+                    <td>
+                        @user.Email
+                    </td>
+
+                    <td class="td-user-present">
+                        @(user.IsPresent ? "Yes" : "No")
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+</div>
+
+@Scripts.Render("~/Scripts/Extensions.js")
+@Scripts.Render("~/Scripts/Play.js")

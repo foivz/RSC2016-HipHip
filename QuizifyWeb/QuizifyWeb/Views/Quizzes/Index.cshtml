@@ -1,24 +1,28 @@
-﻿@model System.Collections.Generic.List<QuizifyWeb.Models.Quiz>
+﻿@using Microsoft.AspNet.Identity
+@using QuizifyWeb.Models
+@model System.Collections.Generic.List<QuizifyWeb.Models.Quiz>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = ApplicationDbContext.Create();
+    ApplicationUser CurrentUser = db.Users.Find(User.Identity.GetUserId());
 }
-<br />
+<br/>
 <div class="container">
     <div class="container-fluid row">
 
 
-        
+
 
 
         @if (Model != null && Model.ToList().Count > 0)
         {
             <h4>List of available quizzes!</h4>
             <p>You can join a quiz or you can create your own.</p>
-            <hr />
-            @Html.ActionLink("Create quiz", "Create", null, new { @class = "btn btn-success" })
-            <br />
-            <br />
+            <hr/>
+            @Html.ActionLink("Create quiz", "Create", null, new {@class = "btn btn-success"})
+            <br/>
+            <br/>
             <table class="col-lg-12 col-md-12 col-sm-12 table table-striped table-hover">
                 <tr>
                     <th>Name</th>
@@ -43,8 +47,12 @@
 
                         <td>
 
-                            @Html.ActionLink("Edit", "Edit", new { id = quiz.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = quiz.Id })
+                            @Html.ActionLink("Edit", "Edit", new {id = quiz.Id}) |
+                            @Html.ActionLink("Delete", "Delete", new {id = quiz.Id})
+                            @if (CurrentUser.Id == quiz.Moderator.Id)
+                            {
+                                @:|&nbsp;<a href="/Play/Index/@quiz.Id">Prepare</a>
+                            }
                         </td>
                     </tr>
                 }
@@ -55,13 +63,12 @@
         {
             <h4>You don't have any quizes jet!</h4>
             <p>You can create you own quiz by clickin on the button "Create quiz"</p>
-            <hr />
-            
-            @Html.ActionLink("Create quiz", "Create", null, new { @class = "btn btn-success" })
-            
+            <hr/>
+
+            @Html.ActionLink("Create quiz", "Create", null, new {@class = "btn btn-success"})
         }
 
 
-           </div>         
-   
+    </div>
+
 </div>
