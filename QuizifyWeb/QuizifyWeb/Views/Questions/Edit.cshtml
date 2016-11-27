@@ -1,4 +1,5 @@
-﻿@model QuizifyWeb.Models.Question
+﻿@using QuizifyWeb.Models
+@model QuizifyWeb.Models.Question
 
 @{
     ViewBag.Title = "Edit";
@@ -39,6 +40,42 @@
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
+        
+        <div class="form-group">
+            <a href="/Answers/Create/@(Model.Id)">Add answer</a> 
+        </div>
+    
+        <table class="table">
+            <tr>
+                <th>
+                    Answer
+                </th>
+                <th>
+                    Options
+                </th>
+            </tr>
+
+            @foreach (var item in ApplicationDbContext.Create().Answers.Where(x => x.Question.Id == Model.Id))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </td>
+
+
+                    <td>
+                        @*@Html.ActionLink("Add answer", "Create", "Answers", null, new {id = item.Id})*@
+
+
+                        <a href="/Answers/Edit/@(item.Id)">Edit</a>|
+                        <a href="/Answers/Delete/@(item.Id)">Delete</a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    
+    
     </div>
 }
 

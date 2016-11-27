@@ -134,7 +134,8 @@ namespace QuizifyWeb.Controllers
             Answer answer = db.Answers.Find(id);
             db.Answers.Remove(answer);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Quizzes");
+
         }
 
         protected override void Dispose(bool disposing)

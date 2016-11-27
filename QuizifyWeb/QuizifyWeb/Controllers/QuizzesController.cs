@@ -4,18 +4,34 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Web.Http;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using QuizifyWeb.Models;
 
 namespace QuizifyWeb.Controllers
 {
-    [RequireHttps, Authorize]
+    [RequireHttps, System.Web.Mvc.Authorize]
     public class QuizzesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         private ApplicationUser CurrentUser => db.Users.Find(User.Identity.GetUserId());
+
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult AddTeamToQuiz([FromBody]int teamId,int quizId)
+        {
+
+            var team = db.Teams.Find(teamId);
+            var quiz = db.Quizzes.Find(quizId);
+
+            quiz.Teams.Add(team);
+
+            db.SaveChanges();
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
 
         // GET: Quizzes
         public ActionResult Index()
@@ -24,7 +40,7 @@ namespace QuizifyWeb.Controllers
 
 
             var quizzes = new List<Quiz>(db.Quizzes.Where(q => q.Moderator.Id.Equals(user.Id)).ToList());
-            /*
+            
             foreach (var quiz in db.Quizzes)
             {
                 foreach (var t in quiz.Teams)
@@ -34,7 +50,7 @@ namespace QuizifyWeb.Controllers
                         quizzes.Add(quiz);
                     }
                 }
-            }*/
+            }
 
 
             return View(quizzes);
@@ -81,7 +97,7 @@ namespace QuizifyWeb.Controllers
         // POST: Quizzes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         //[Bind(Include = "Id,DateTime,Name,QuestionVisibility,Location.Latitude,Location.Longitude,Location.City,QuizCategory,IsPublic")]
         public ActionResult Create(QuizViewModel quizModel)
@@ -132,7 +148,7 @@ namespace QuizifyWeb.Controllers
         // POST: Quizzes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,DateTime,Name,QuestionVisibility,IsPublic")] Quiz quiz)
         {
@@ -161,7 +177,7 @@ namespace QuizifyWeb.Controllers
         }
 
         // POST: Quizzes/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [System.Web.Mvc.HttpPost, System.Web.Mvc.ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {

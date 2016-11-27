@@ -11,3 +11,11 @@
         }
     });
 }
+
+$.fn.where = function (expression) {
+    var $this = this;
+    return $this.filter(function (index) {
+        var $obj = $($this[index]);
+        return expression($obj);
+    });
+};
