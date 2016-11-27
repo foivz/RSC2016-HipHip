@@ -37,16 +37,14 @@ namespace QuizifyWeb.Controllers.WebApi
 
             List<QuizBasic> lista = new List<QuizBasic>();
 
-            foreach(Quiz q in kvizovi)
+            foreach (var quiz in db.Quizzes)
             {
-                foreach(Team t in user.Team)
+                if (quiz.Teams.Any(x => x.Users.Any(s => s.Id == user.Id)))
                 {
-                    if (q.Teams.Contains(t))
-                    {
-                        
-                        lista.Add(new QuizBasic() { id = q.Id, name = q.Name });
+
+                    lista.Add(new QuizBasic() { id = quiz.Id, name = quiz.Name });
                     }
-                }
+                
             }
 
             if(lista.Count == 0)

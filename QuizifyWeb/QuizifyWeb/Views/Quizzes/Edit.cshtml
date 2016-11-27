@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = ApplicationDbContext.Create();
 }
 <br />
 <div class="container">
@@ -84,7 +85,7 @@
                 </th>
             </tr>
 
-            @foreach (var item in ApplicationDbContext.Create().Teams.Where(x => x.Quizzes.Any(i => i.Id == Model.Id)))
+            @foreach (var item in db.Teams.Where(x => x.Quizzes.Any(i => i.Id == Model.Id)))
             {
                 <tr>
                     <td>
@@ -120,7 +121,7 @@
                 </th>
             </tr>
 
-            @foreach (var item in ApplicationDbContext.Create().Teams.Where(x => x.Quizzes.Any(i => i.Id ==  Model.Id) == false))
+            @foreach (var item in db.Teams.Where(x => x.Quizzes.Any(i => i.Id ==  Model.Id) == false))
             {
                 <tr class="teams" data-team-id="@(item.Id)">
                     <td>
@@ -155,7 +156,7 @@
                 @*<th></th>*@
             </tr>
 
-            @foreach (var item in ApplicationDbContext.Create().Questions.Where(x => x.Quiz.Id == Model.Id))
+            @foreach (var item in db.Questions.Where(x => x.Quiz.Id == Model.Id))
             {
                 <tr>
                     <td>
@@ -186,7 +187,7 @@
                 </th>
             </tr>
 
-            @foreach (var item in ApplicationDbContext.Create().QuestionCategories.Where(x => x.Quiz.Id == Model.Id))
+            @foreach (var item in db.QuestionCategories.Where(x => x.Quiz.Id == Model.Id))
             {
                 <tr>
                     <td>
