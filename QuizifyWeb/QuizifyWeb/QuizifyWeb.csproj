@@ -193,6 +193,7 @@
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\QuizzesController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
+    <Compile Include="Controllers\WebApi\QuizzesController.cs" />
     <Compile Include="Controllers\WebApi\TeamsController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
     <Compile Include="Global.asax.cs">
