@@ -59,7 +59,7 @@ namespace QuizifyWeb.Controllers
             foreach (var quiz in db.Quizzes)
             {
 
-
+                
                 if (quizzes.Contains(quiz) == false && quiz.Teams.Any(x => x.Users.Any(s => s.Id == user.Id)))
                 {
                     quizzes.Add(quiz);

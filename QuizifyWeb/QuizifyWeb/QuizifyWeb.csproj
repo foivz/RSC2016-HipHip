@@ -193,6 +193,8 @@
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\QuizzesController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
+    <Compile Include="Controllers\WebApi\AlexaController.cs" />
+    <Compile Include="Controllers\WebApi\BeaconController.cs" />
     <Compile Include="Controllers\WebApi\QuizzesController.cs" />
     <Compile Include="Controllers\WebApi\TeamsController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
@@ -350,6 +352,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Alexa\" />
+    <Folder Include="Views\Beacon\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
