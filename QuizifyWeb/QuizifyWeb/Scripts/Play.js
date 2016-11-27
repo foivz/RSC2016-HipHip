@@ -29,3 +29,4 @@ window.onload = function () {
         checkIsStarted(Number($("#quiz-id").html()));
     }, 1000);
 };
+//# sourceMappingURL=Play.js.map

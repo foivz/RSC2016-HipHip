@@ -247,6 +247,10 @@
     <Compile Include="Migrations\201611270510476_QuizIsPreparedAdd.Designer.cs">
       <DependentUpon>201611270510476_QuizIsPreparedAdd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611270712566_QuizCurrentAdd.cs" />
+    <Compile Include="Migrations\201611270712566_QuizCurrentAdd.Designer.cs">
+      <DependentUpon>201611270712566_QuizCurrentAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Answer.cs" />
@@ -273,6 +277,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Properties\PublishProfiles\quizify.pubxml" />
@@ -286,6 +292,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -399,6 +408,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611270510476_QuizIsPreparedAdd.resx">
       <DependentUpon>201611270510476_QuizIsPreparedAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611270712566_QuizCurrentAdd.resx">
+      <DependentUpon>201611270712566_QuizCurrentAdd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
