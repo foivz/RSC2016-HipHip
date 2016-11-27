@@ -20,11 +20,39 @@ window.onload = () => {
 
                     const row = $(".teams").where(x => x.attr("data-team-id") === teamId);
 
-                    $(".table-added-teams").append(row);
+
+                    $(".teams").where(x => x.attr("data-team-id") === teamId).remove();
+
+                    $(".table-added-teams").append(row).focus();
+
 
                 })
                 .fail(e => {
                     alert("Failed to add team :( !");
+                });
+        });
+
+    $(".btn-remove-from-quiz")
+        .click(e => {
+            let $btn = $(e.target);
+
+            let teamId = $btn.attr("data-team-id");
+            let quizId = $btn.attr("data-quiz-id");
+
+            $.post("/Quizzes/RemoveFromQuiz", { teamId: teamId, quizId: quizId })
+                .done(d => {
+
+                    const row = $(".quiz-team").where(x => x.attr("data-team-id") === teamId);
+
+
+                    $(".quiz-team").where(x => x.attr("data-team-id") === teamId).remove();
+
+                    $(".table-all-teams").append(row).focus();
+
+                    window.location.reload();
+                })
+                .fail(e => {
+                    alert("Failed to remove team :( !");
                 });
         });
 };

@@ -86,7 +86,7 @@
 
             @foreach (var item in ApplicationDbContext.Create().Teams.Where(x => x.Quizzes.Any(i => i.Id == Model.Id)))
             {
-                <tr>
+                <tr class="quiz-team">
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
@@ -98,6 +98,8 @@
 
                         <a href="/Teams/Edit/@(item.Id)">Edit</a>|
                         <a href="/Teams/Delete/@(item.Id)">Delete</a>|
+                        <a class="btn-remove-from-quiz" data-team-id="@(item.Id)" data-quiz-id="@(Model.Id)">Remove from quiz</a>
+
                     </td>
                 </tr>
             }
@@ -106,7 +108,7 @@
         <h2>Svi timovi</h2>
 
 
-        <table class="table">
+        <table class="table table-all-teams">
             <tr>
                 <th>
                     Name
@@ -169,7 +171,7 @@
                         @*@Html.ActionLink("Add answer", "Create", "Answers", null, new {id = item.Id})*@
 
                         <a href="/Questions/Edit/@(item.Id)">Edit</a>|
-                        <a href="/Questions/Delete/@(item.Id)">Delete</a>|
+                        <a href="/Questions/Delete/@(item.Id)">Delete</a>
                     </td>
                 </tr>
             }
