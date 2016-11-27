@@ -1,0 +1,19 @@
+﻿@using QuizifyWeb.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+<div class="container">
+    <div class="row">
+
+        <div style="max-width: 50%; margin: 0 auto;">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

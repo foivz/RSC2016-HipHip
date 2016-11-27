@@ -1,0 +1,67 @@
+﻿@model System.Collections.Generic.List<QuizifyWeb.Models.Quiz>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="container">
+    <div class="container-fluid row">
+
+
+        
+
+
+        @if (Model != null && Model.ToList().Count > 0)
+        {
+            <h4>List of available quizzes!</h4>
+            <p>You can join a quiz or you can create your own.</p>
+            <hr />
+            @Html.ActionLink("Create quiz", "Create", null, new { @class = "btn btn-success" })
+            <br />
+            <br />
+            <table class="col-lg-12 col-md-12 col-sm-12 table table-striped table-hover">
+                <tr>
+                    <th>Name</th>
+                    <th>Moderator</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                    <th>Options</th>
+                </tr>
+
+
+                @foreach (var quiz in Model)
+                {
+                    <tr>
+                        <td> @quiz.Name </td>
+
+                        <td> @quiz.Moderator.Name </td>
+
+
+                        <td> @quiz.QuizCategory.Name </td>
+
+                        <td> @quiz.Location.City </td>
+
+                        <td>
+
+                            @Html.ActionLink("Edit", "Edit", new { id = quiz.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = quiz.Id })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        }
+        else
+        {
+            <h4>You don't have any quizes jet!</h4>
+            <p>You can create you own quiz by clickin on the button "Create quiz"</p>
+            <hr />
+            
+            @Html.ActionLink("Create quiz", "Create", null, new { @class = "btn btn-success" })
+            
+        }
+
+
+           </div>         
+   
+</div>

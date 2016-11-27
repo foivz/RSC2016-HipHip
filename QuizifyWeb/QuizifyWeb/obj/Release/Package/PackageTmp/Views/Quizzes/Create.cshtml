@@ -1,0 +1,156 @@
+﻿@using QuizifyWeb.Models
+@model QuizifyWeb.Controllers.QuizzesController.QuizViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var categories = new List<QuizCategory>();
+}
+@functions{
+
+    private IEnumerable<SelectListItem> GetCategories()
+    {
+        var roles = ApplicationDbContext.Create().QuizCategories.ToList()
+            .Select(x =>
+                new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                });
+
+        return new SelectList(roles, "Value", "Text");
+    }
+
+}
+
+<br />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <div class="form-horizontal">
+            <h4>Create your quiz!</h4>
+            <p>
+                Please fill out this form and click on buton "ADD QUIZ" to create you own quiz.
+            </p>
+            <hr />
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div >
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "input text-box single-line" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top:-15px;">
+                <label class="control-label col-md-2" style="margin-top:20px;" for="DateTime">Date:</label>
+
+                <div class='input-group date' id='datetimepicker1'>
+                    <input @*type='text'*@ class="input form-control " style="background:#FFF; width:185px;" data-val="true" data-val-required="The DateTime field is required." id="DateTime" name="DateTime" type="datetime" value="" />
+
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar" style="margin-left:-1500px;margin-top:20px;"></span>
+                    </span>
+                </div>
+            </div>
+            <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker();
+                });
+            </script>
+
+
+    
+            <div class="form-group" style="margin-left:-30px;">
+                @Html.LabelFor(model => model.QuestionVisibility, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EnumDropDownListFor(model => model.QuestionVisibility, htmlAttributes: new { @class = "input text-box", @style = "width:185px;" })
+                    @Html.ValidationMessageFor(model => model.QuestionVisibility, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group" style="margin-left:-30px;">
+                @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "input text-box single-line" } })
+
+
+                </div>
+            </div>
+
+
+            <div class="form-group" style="margin-left:-30px;">
+                @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                <div class="col-md-10" >
+                    @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "input text-box single-line" } })
+
+
+                </div>
+            </div>
+
+
+            <div class="form-group" style="margin-left:-30px;">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "input text-box single-line" } })
+
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group" style="margin-left:-30px;">
+                @Html.LabelFor(model => model.QuizCategory, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.QuizCategory, GetCategories(), new { @class = "form-control", @style="width:185px;" })
+                    @Html.ValidationMessageFor(model => model.QuizCategory, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })
+
+
+                <label></label>
+                <div class="col-md-10">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.IsPublic)
+                        @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-left:-30px;"> 
+                
+                    <input type="submit" value="Create quiz" class="btn btn-success" />
+               
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+                
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

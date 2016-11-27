@@ -1,0 +1,223 @@
+﻿@using QuizifyWeb.Models
+@model QuizifyWeb.Models.Quiz
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = ApplicationDbContext.Create();
+}
+<br />
+<div class="container">
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Edit quiz</h4>
+        <p>To edit quiz change form data that you need and press "SAVE CHANGES" button.</p>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateTime, new { htmlAttributes = new { @class = "input form-control", @style= "background:#FFF; width:185px;" } })
+                @Html.ValidationMessageFor(model => model.DateTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "input text-box" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionVisibility, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.QuestionVisibility, htmlAttributes: new { @class = "input text-box", @style="width:185px;" })
+                @Html.ValidationMessageFor(model => model.QuestionVisibility, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsPublic)
+                    @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        
+       
+        <div class="form-group">
+            <a href="/Teams/Create/@(Model.Id)">Add question</a> |
+            <a href="/Questions/Create/@(Model.Id)">Add question</a> |
+            <a href="/QuestionCategories/Create/@(Model.Id)">Add question category</a> |
+        </div>
+            <hr />
+
+            <div class="form-group">
+                
+                    <input type="submit" value="Save changes" class="btn btn-success" />
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger" })
+            </div>
+        
+        <h2>Dodani timovi --- Promemni ovo bre</h2>
+
+        <table class="table table-added-teams">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Members
+                </th>
+
+                <th>
+                    Options
+                </th>
+            </tr>
+
+            @foreach (var item in db.Teams.Where(x => x.Quizzes.Any(i => i.Id == Model.Id)))
+            {
+                <tr class="quiz-team">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Users.Count)
+                    </td>
+
+                    <td>
+
+                        <a href="/Teams/Edit/@(item.Id)">Edit</a>|
+                        <a href="/Teams/Delete/@(item.Id)">Delete</a>|
+                        <a class="btn-remove-from-quiz" data-team-id="@(item.Id)" data-quiz-id="@(Model.Id)">Remove from quiz</a>
+
+                    </td>
+                </tr>
+            }
+        </table>
+        
+        <h2>Svi timovi</h2>
+
+
+        <table class="table table-all-teams">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Members
+                </th>
+
+                <th>
+                    Options
+                </th>
+            </tr>
+
+            @foreach (var item in db.Teams.Where(x => x.Quizzes.Any(i => i.Id ==  Model.Id) == false))
+            {
+                <tr class="teams" data-team-id="@(item.Id)">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Users.Count)
+                    </td>
+                    
+                    
+                    <td>
+                        <a class="btn btn-primary btn-add-team" data-team-id="@(item.Id)" data-quiz-id="@(Model.Id)">ADD TEAM</a>
+                    </td>
+
+                 
+                </tr>
+            }
+        </table>
+
+        <table class="table">
+            <tr>
+                <th>
+                    Question
+                </th>
+                <th>
+                    Type
+                </th>
+                
+                <th>
+                    Options
+                </th>
+                @*<th></th>*@
+            </tr>
+
+            @foreach (var item in db.Questions.Where(x => x.Quiz.Id == Model.Id))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuestionType)
+                    </td>
+
+                    <td>
+                        @*@Html.ActionLink("Add answer", "Create", "Answers", null, new {id = item.Id})*@
+
+                        <a href="/Questions/Edit/@(item.Id)">Edit</a>|
+                        <a href="/Questions/Delete/@(item.Id)">Delete</a>
+                    </td>
+                </tr>
+            }
+        </table>
+        
+        
+        <table class="table">
+            <tr>
+                <th>
+                    Categories
+                </th>
+                <th>
+                    Options
+                </th>
+            </tr>
+
+            @foreach (var item in db.QuestionCategories.Where(x => x.Quiz.Id == Model.Id))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                   
+
+                    <td>
+                        @*@Html.ActionLink("Add answer", "Create", "Answers", null, new {id = item.Id})*@
+
+
+                        <a href="/QuestionCategories/Edit/@(item.Id)">Edit</a>|
+                        <a href="/QuestionCategories/Delete/@(item.Id)">Delete</a>|
+                    </td>
+                </tr>
+            }
+        </table>
+
+
+    </div>
+}
+    </div>
+<div>
+    
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Extensions.js")
+    @Scripts.Render("~/Scripts/AddTeam.js")
+}
