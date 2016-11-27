@@ -17,8 +17,10 @@ window.onload = () => {
 
             $.post("/Quizzes/AddTeamToQuiz", { teamId: teamId, quizId: quizId })
                 .done(d => {
-                    
 
+                    const row = $(".teams").where(x => x.attr("data-team-id") === teamId);
+
+                    $(".table-added-teams").append(row);
 
                 })
                 .fail(e => {
