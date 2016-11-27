@@ -189,6 +189,7 @@
     <Compile Include="Controllers\ApplicationUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PlayController.cs" />
     <Compile Include="Controllers\QuestionCategoriesController.cs" />
     <Compile Include="Controllers\QuestionsController.cs" />
     <Compile Include="Controllers\QuizzesController.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Controllers\WebApi\AlexaController.cs" />
     <Compile Include="Controllers\WebApi\BeaconController.cs" />
     <Compile Include="Controllers\WebApi\QuizzesController.cs" />
+    <Compile Include="Controllers\WebApi\QuizzesStatController.cs" />
     <Compile Include="Controllers\WebApi\TeamsController.cs" />
     <Compile Include="Controllers\WebApi\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -343,6 +345,7 @@
     <Content Include="Views\QuestionCategories\Details.cshtml" />
     <Content Include="Views\QuestionCategories\Edit.cshtml" />
     <Content Include="Views\QuestionCategories\Index.cshtml" />
+    <Content Include="Views\Play\Index.cshtml" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
@@ -400,6 +403,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\AddTeam.ts" />
+    <TypeScriptCompile Include="Scripts\Play.ts" />
     <TypeScriptCompile Include="Scripts\TeamsAddMember.ts" />
     <TypeScriptCompile Include="Scripts\TeamsCreate.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />

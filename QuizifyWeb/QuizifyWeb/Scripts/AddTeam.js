@@ -31,4 +31,3 @@ window.onload = function () {
         });
     });
 };
-//# sourceMappingURL=AddTeam.js.map

@@ -29,7 +29,6 @@ namespace QuizifyWeb.Controllers.WebApi
         private ApplicationDbContext db = new ApplicationDbContext();
 
         [Route("api/Quizzez/My")]
-        // GET: Quizzes
         public List<QuizBasic> Post([FromBody]uID id)
         {
             var user = db.Users.Where(l => l.Id == id.id).FirstOrDefault();
@@ -54,6 +53,13 @@ namespace QuizifyWeb.Controllers.WebApi
 
             return lista;
         }
+
+        public IHttpActionResult GetUsersArrival(string id)
+        {
+            return Ok(new {isPresent = db.Users.Find(id).IsPresent});
+        }
+
+
 
         
     }

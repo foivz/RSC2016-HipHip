@@ -111,6 +111,7 @@ namespace QuizifyWeb.Controllers
             public double Latitude { get; set; }
             public double Longitude { get; set; }
             public string City { get; set; }
+            public int  Duration { get; set; }
 
             public int QuizCategory { get; set; }
         }
@@ -136,6 +137,7 @@ namespace QuizifyWeb.Controllers
                         Latitude = quizModel.Latitude,
                         Longitude = quizModel.Longitude
                     },
+                    Duration = new TimeSpan(0, quizModel.Duration,0),
                     Moderator = CurrentUser,
                     Name = quizModel.Name,
                     QuestionVisibility = quizModel.QuestionVisibility,
@@ -171,7 +173,7 @@ namespace QuizifyWeb.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [System.Web.Mvc.HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,DateTime,Name,QuestionVisibility,IsPublic")] Quiz quiz)
+        public ActionResult Edit([Bind(Include = "Id,DateTime,Name,QuestionVisibility,IsPublic,Duration")] Quiz quiz)
         {
             if (ModelState.IsValid)
             {
