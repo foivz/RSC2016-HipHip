@@ -6,11 +6,12 @@
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
+        android:textSize="18sp"
         android:layout_centerInParent="true"/>
 
     <ImageView
@@ -34,6 +35,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="14dp"
         android:id="@+id/textView5" />
+
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/twitter_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/login_button"
+        android:layout_centerInParent="true"/>
 
 
 </RelativeLayout>

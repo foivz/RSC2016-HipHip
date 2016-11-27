@@ -10,5 +10,6 @@
         android:id="@+id/name"
         android:textSize="20sp"
         android:gravity="center"
+        android:background="@drawable/title"
         android:textColor="@color/black"/>
 </LinearLayout>

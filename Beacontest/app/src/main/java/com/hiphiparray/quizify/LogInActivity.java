@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -35,11 +36,27 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.TwitterAuthProvider;
+import com.google.firebase.auth.UserInfo;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.models.User;
+import com.twitter.sdk.android.core.services.AccountService;
 
 import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by TOSHIBA on 26.11.2016..
@@ -56,8 +73,12 @@ public class LogInActivity extends AppCompatActivity {
     String username;
     String lastName;
 
+    private static final String TWITTER_KEY = "mphGKbfUf8RK5Mdi1g8sL6Eg6";
+    private static final String TWITTER_SECRET = "Nyyium0HeYUTJclRi3D8J6pWTOMpVgP0vgyLYz3Ti5TKXIe9nF ";
 
-    //private TwitterLoginButton loginButton;
+    private TwitterLoginButton loginButtonTwitter;
+    private String twitter_id;
+    private TwitterAuthClient client;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,8 +91,10 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 if (user != null) {
                     // User is signed in
+
 
                     name = user.getDisplayName();
                     email = user.getEmail();
@@ -80,6 +103,9 @@ public class LogInActivity extends AppCompatActivity {
                     setResult(RESULT_OK,output);
                     finish();
                     Login();
+
+
+
                 } else {
                     // User is signed out
                     //Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -87,6 +113,32 @@ public class LogInActivity extends AppCompatActivity {
                 // ...
             }
         };
+
+
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new com.twitter.sdk.android.Twitter(authConfig));
+        client = new TwitterAuthClient();
+
+
+
+        loginButtonTwitter = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
+        loginButtonTwitter.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+
+                TwitterSession session = Twitter.getSessionManager().getActiveSession();
+
+
+
+                String msg = "@" + session.getUserName() + " logged in! (#" + session.getUserId() + ")";
+                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+
+            }
+            @Override
+            public void failure(TwitterException exception) {
+                Log.d("TwitterKit", "Login with Twitter failure", exception);
+            }
+        });
 
 
         //FacebookSdk.sdkInitialize(getActivity());
@@ -124,6 +176,7 @@ public class LogInActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        loginButtonTwitter.onActivityResult(requestCode,resultCode,data);
 
 
     }
@@ -195,7 +248,6 @@ public class LogInActivity extends AppCompatActivity {
                         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("UserId", id_korisnika);
-                        Toast.makeText(getApplicationContext(),"Uspješno logiran!",Toast.LENGTH_LONG).show();
                         editor.apply();
                     }
                 }

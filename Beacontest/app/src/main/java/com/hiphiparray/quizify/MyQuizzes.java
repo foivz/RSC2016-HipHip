@@ -41,7 +41,7 @@ public class MyQuizzes extends AppCompatActivity {
 
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://quizify.online/api/Quizzez/My/";
+        String url = "http://quizify.online/api/Quizzez/My";
         String prepData = "{\"id\": \""+userId+"\"}";
 
 
@@ -70,6 +70,8 @@ public class MyQuizzes extends AppCompatActivity {
 
                                 String e = object.getString("name");
                                 //teams.add(name);
+
+                                Log.d("QUIZ",e);
 
                                 TextView pogled = new TextView(MyQuizzes.this);
                                 int idd = pogled.generateViewId();

@@ -5,9 +5,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,9 +21,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -28,12 +39,25 @@ import com.facebook.FacebookSdk;
 import com.estimote.sdk.SystemRequirementsChecker;
 import com.facebook.appevents.AppEventsLogger;
 
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import io.fabric.sdk.android.Fabric;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.UUID;
 
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "mphGKbfUf8RK5Mdi1g8sL6Eg6";
+    private static final String TWITTER_SECRET = "Nyyium0HeYUTJclRi3D8J6pWTOMpVgP0vgyLYz3Ti5TKXIe9nF";
+
     private BeaconManager beaconManager;
     final static int LogIn = 1;
     String username;
@@ -46,6 +70,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,16 +82,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onEnteredRegion(Region region, List<Beacon> list) {
                 showNotification(
-                        "Ušli ste u područje u kojemu se održava ispit.",
-                        "Vaše prisustvo je automatski zabilježeno "
-                                + "Ukoliko ste u timu, pronađite vaše kolege."
-                                + "Na aplikaciji provjerite kada počinje kviz");
+                        "You have entered a Quiz zone.",
+                        "Your attendance is automatically registered.");
+
+                presence(true);
             }
             @Override
             public void onExitedRegion(Region region) {
-                showNotification("Upozorenje!",
-                        "Izlazite iz zone u kojoj se održava ispit!" +
-                                "Ukoliko tijekom ispita niste u toj zoni, nećete moći pristupiti polaganju ispita!");
+                showNotification("Warning!",
+                        "You are leaving the Quiz zone!" +
+                                "You may not be able to participate in the Quiz!");
+
+                presence(false);
             }
         });
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
@@ -146,6 +174,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.particpates) {
             Intent intent = new Intent(this,MyQuizzes.class);
             startActivity(intent);
+        } else if(id == R.id.logout){
+            FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
+            Intent intent = new Intent(this,LogInActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -185,4 +218,50 @@ public class MainActivity extends AppCompatActivity
         notificationManager.notify(1, notification);
     }
 
+    public void presence(Boolean present){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String userId = preferences.getString("UserId","Default_Value");
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url = "http://quizify.online/api/Beacon/Here";
+        String prepData;
+
+
+        if (present){
+            prepData = "{\"id\": \""+userId+"\",\"prisutan\":"+present+"}";
+        }
+        else{
+            prepData = "{\"id\": \""+userId+"\",\"prisutan\":"+present+"}";
+        }
+
+        JSONObject data = null;
+        try{
+            data = new JSONObject(prepData);
+        }catch (Exception e){}
+
+
+        JsonArrayRequest postRequest = new JsonArrayRequest(Request.Method.POST, url, data,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {}
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {}});
+        queue.add(postRequest);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        FirebaseAuth.getInstance().signOut();
+        LoginManager.getInstance().logOut();
+    }
 }
